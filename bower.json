@@ -1,0 +1,15 @@
+{
+  "name": "Importer_Angular_Test",
+  "description": "A test project of angularjs framework",
+  "version": "0.0.1",
+  "private": false,
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-loader": "1.2.x",
+    "angular-mocks": "~1.2.x",
+    "html5-boilerplate": "~4.3.0",
+    "angular-file-upload" : "1.1.1",
+    "angular-socket-io" : "0.6.0"
+  }
+}
