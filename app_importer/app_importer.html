@@ -1,0 +1,37 @@
+
+<body ng-app ="myApp" ng-controller = "importerCtrl">
+
+
+
+  <div class ="row">
+
+    <div class = "col-md-3">
+      <dave-menu header = "'Upload File'">
+        <dave-menu-field field-label = "'Type'" field-type = "'selection'" select-options = "['.csv','.txt']" place-to-return = "menuFieldDetail.fieldType"></dave-menu-field>
+        <dave-menu-field field-label = "'Name'" field-type = "'text'" place-to-return = "menuFieldDetail.fieldName"></dave-menu-field>
+        <dave-menu-field field-label = "'File'" field-type = "'file'" place-to-return = "menuFieldDetail.fieldUploader"></dave-menu-field>
+
+        <div class="form-group">
+          <div class="col-sm-6">
+            <button type="submit" class="btn btn-success btn-block" ng-click="submitUpload()">Submit</button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" class ="btn btn-inverse btn-block" >Reset</button>
+          </div>
+        </div>
+
+
+      </dave-menu>
+    </div>
+
+    <div class = 'col-md-8'>
+      <div ng-repeat = "metaData in filesMetaData">
+        <dave-selection d2-meta-data = "metaData" d2-data = "filesData[metaData.filename]" field-details = "fieldDetails" place-to-return ="selectedFields"></dave-selection>
+      </div>
+    </div>
+
+
+
+  </div>
+
+</body>

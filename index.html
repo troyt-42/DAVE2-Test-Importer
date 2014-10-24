@@ -2,37 +2,53 @@
 <!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="dave2App" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Importers For DAVE2</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
-  <link rel="stylesheet" href="app.css"/>
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="app.css"/>
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="component_menu/component_menu.css"/>
 </head>
-<body ng-app ="myApp" ng-controller = "importerCtrl">
-
-  <div class ="row">
-    <div class = 'col-md-6'>
-      <div ng-repeat = "metaData in filesMetaData">
-        <dave-selection d2-meta-data = "metaData" d2-data = "filesData[metaData.filename]"></dave-selection>
-      </div>
+<body>
+  <div class = "row">
+    <br>
+    <br>
+    <div class = "col-md-3">
+      <div class = "logo"><img src="imgs/greenfield_header_0.png"></div>
     </div>
 
-    <div class = "col-md-6">
-      <dave-menu header = "'Upload File'">
-        <dave-menu-field field-label = "'Type'" field-type = "'selection'" select-options = "['.csv','.txt']"></dave-menu-field>
-        <dave-menu-field field-label = "'Name'" field-type = "'text'"></dave-menu-field>
-        <dave-menu-field field-label = "'File'" field-type = "'file'"></dave-menu-field>
-      </dave-menu>
+    <div class = "col-md-9 navbar-nav navbar_m">
+
+      <ul class="nav navbar-nav nav-tabs col-md-12">
+        <li><a class = "options_navbar home_tab" href="#">Home</a></li>
+        <li><a class = "options_navbar" href="#">Data Retrive</a></li>
+        <li><a class = "options_navbar" href="#">Analyse</a></li>
+        <li><a class = "options_navbar" href="#">Exports</a></li>
+        <li class="active"><a class = "options_navbar" href="#/Importer">Importer</a></li>
+
+        <form class="navbar-form navbar-right" role="search" style="margin-right:0px">
+          <div class="form-group">
+            <i class = "glyphicon glyphicon-search" style ="color:white"></i>
+            <input type="text" class="form-control" placeholder="Search" style="border-top-left-radius:20px;border-bottom-left-radius:20px">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </ul>
+
     </div>
-
-
+    <br>
   </div>
+
+  <br>
+  <hr>
+
+  <div ng-view></div>
 
 
 
@@ -47,8 +63,9 @@
   <script src="/bower_components/angular-socket-io/socket.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.1.0.js"></script>
   <script src="app.js" type ="application/javascript"></script>
-  <script src="view_selection/view_selection.js" type ="application/javascript"></script>
-  <script src="view_menu/view_menu.js" type ="application/javascript"></script>
+  <script src="component_selection/component_selection.js" type ="application/javascript"></script>
+  <script src="component_menu/component_menu.js" type ="application/javascript"></script>
+  <script src="app_importer/app_importer.js" type ="application/javascript"></script>
 </body>
 </body>
 

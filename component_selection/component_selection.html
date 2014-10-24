@@ -1,0 +1,48 @@
+
+<div>
+
+  <div class="panel panel-primary" class="col-md-12">
+
+    <div class="panel-heading" >
+      <div class = "row">
+        <div class = "col-md-7">{{d2MetaData.filename}}</div>
+        <div class = '' >
+          <button type="button" class="btn btn-success" ng-disabled = "decided" ng-click = "decideSelection()">Decide Selection</button>
+          <button type="button" class="btn btn-danger" ng-click = "cancelSelection()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <ul class = "list-group">
+        <li class = "list-group-item list-group-item-warning" ng-repeat = "field in d2Data" style ="display:table;width:100%">
+          <div class = "filename" style = "color:black">{{field}}</div>
+
+          <div class = "selectButton">
+            <button class ="btn btn-info" ng-click = "unSelected[$index] = false; selectField(field)" ng-init = "unSelected[$index] = true">Select</button>
+
+            <div class="btn-group" ng-repeat = "detail in fieldDetails" style ="padding : 3px;">
+              <button class="btn btn-info" ng-disabled = "unSelected[$parent.$index]">
+                <div ng-if = "selectedFields[field][detail.detailName] === undefined">{{detail.detailName}}</div>
+                <div ng-if = "selectedFields[field][detail.detailName] !== undefined">{{detail.detailName}} : {{selectedFields[field][detail.detailName]}}</button>
+              <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" ng-disabled = "unSelected[$parent.$index]">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                <!-- dropdown menu links -->
+                <li role="presentation" ng-repeat = "option in detail.options"><a role="menuitem" tabindex="-1" ng-click = "defineFieldDetail(field, detail.detailName, option)">{{option}}</a></li>
+              </ul>
+
+            </div>
+
+
+          </div>
+
+          <div class="glyphicon glyphicon-ok readySign" style = "color:green" ng-hide = "unSelected[$index]"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+</div>
