@@ -1,0 +1,1 @@
+var dropBoxComponent=angular.module("dropBoxComponent",[]);dropBoxComponent.directive("daveDropBox",function(){return{restrict:"E",templateUrl:"component_functional_button/component_functional_button.html",scope:{buttonName:"=",selectOptions:"=",palceToReturn:"="}}});

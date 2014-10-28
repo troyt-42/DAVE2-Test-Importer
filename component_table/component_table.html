@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th ng-repeat = "header in headers">
+        {{header}}
+        <span class="badge" ng-repeat = "(name, detail) in selectionData[header]">{{detail}}</span>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat = "data in fieldValues">
+      <td ng-repeat = "header in headers">{{data[header].value}}</td>
+    </tr>
+  </tbody>
+
+
+
+
+</table>

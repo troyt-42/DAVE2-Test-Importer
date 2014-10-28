@@ -1,11 +1,12 @@
 
-<body ng-app ="myApp" ng-controller = "importerCtrl">
+<body ng-app ="importer" ng-controller = "importerCtrl">
 
 
 
   <div class ="row">
 
     <div class = "col-md-3">
+      <!--
       <dave-menu header = "'Upload File'">
         <dave-menu-field field-label = "'Type'" field-type = "'selection'" select-options = "['.csv','.txt']" place-to-return = "menuFieldDetail.fieldType"></dave-menu-field>
         <dave-menu-field field-label = "'Name'" field-type = "'text'" place-to-return = "menuFieldDetail.fieldName"></dave-menu-field>
@@ -22,13 +23,55 @@
 
 
       </dave-menu>
+      <dave-panel panel-heading = "'Select Fields'">
+        <dave-drop-box-data box-name = "'Field1'" box-content = "Field1" place-to-drop = "realData"></dave-drop-box-data>
+        <dave-drop-box-meta box-name = "'Int'" box-content = "field1NumberType" place-to-drop = "selectionData"></dave-drop-box-meta>
+        <dave-drop-box-meta box-name = "'Float1'" box-content = "field1NumberType2" place-to-drop = "selectionData"></dave-drop-box-meta>
+        <dave-drop-box-meta box-name = "'Float2'" box-content = "field1NumberType3" place-to-drop = "selectionData"></dave-drop-box-meta>
+        <dave-drop-box-meta box-name = "'CentiMeter'" box-content = "field1Unit1" place-to-drop = "selectionData"></dave-drop-box-meta>
+        <dave-drop-box-meta box-name = "'Litre'" box-content = "field1Unit2" place-to-drop = "selectionData"></dave-drop-box-meta>
+        <dave-drop-box-meta box-name = "'Meter'" box-content = "field1Unit3" place-to-drop = "selectionData"></dave-drop-box-meta>
+        <hr>
+        <dave-drop-box-data box-name = "'Field2'" box-content = "Field2" place-to-drop = "realData"></dave-drop-box-data>
+      </dave-panel>
+
+
+      -->
+      <dave-panel panel-heading = "Select Fields">
+
+        <div ng-repeat = "field in formattedData">
+          <dave-drop-box-data box-name = "{{fieldName(field)}}" box-content = "{{field}}" place-to-drop = "realData" ng-if ="fieldName(field) !== 'Date'">
+
+            <div class="panel-body tt-field-panel" ng-repeat = "detail in fieldDetails">
+              <div class = "tt-field-text" >{{detail.detailName}}</div>
+              <dave-drop-box-meta ng-repeat = "option in detail.options" box-name = "{{option}}" box-content = "{{fieldDetail(fieldName(field), detail.detailName, option)}}" place-to-drop = "selectionData"></dave-drop-box-meta>
+              <hr>
+            </div>
+
+          </dave-drop-box-data>
+        </div>
+      </dave-panel>
+
     </div>
 
-    <div class = 'col-md-8'>
+    <!--
+    <div class = 'col-md-9'>
       <div ng-repeat = "metaData in filesMetaData">
         <dave-selection d2-meta-data = "metaData" d2-data = "filesData[metaData.filename]" field-details = "fieldDetails" place-to-return ="selectedFields"></dave-selection>
       </div>
     </div>
+
+    <div class = "col-md-9">
+      <dave-table selection-data = "selectionData" field-values = "realData"></dave-table>
+    </div>
+    -->
+
+    <div class = "col-md-9">
+      <dave-table selection-data = "selectionData" field-values = "realData"></dave-table>
+    </div>
+
+
+
 
 
 

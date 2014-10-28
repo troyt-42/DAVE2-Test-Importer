@@ -1,0 +1,22 @@
+.tt-field{
+  width: 100%;
+  display: table;
+  vertical-align: middle;
+  text-align: center;
+  background-color: silver;
+  border: 1px azure solid;
+}
+
+
+.tt-field-text{
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 15px;
+  color:black;
+  font-family:"american typer";
+  font-weight: bold;
+}
+
+.tt-field-panel{
+    background:radial-gradient(circle, #87CEEB, #ADD8E6);
+}
