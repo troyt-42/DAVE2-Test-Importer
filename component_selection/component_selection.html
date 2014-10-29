@@ -9,6 +9,7 @@
         <div class = '' >
           <button type="button" class="btn btn-success" ng-disabled = "decided" ng-click = "decideSelection()">Decide Selection</button>
           <button type="button" class="btn btn-danger" ng-click = "cancelSelection()">Cancel</button>
+          <button type="button" class="btn btn-inverse animate-if" ng-if = "decided" ng-click = "submitSelection()" style = "color:black">Submit ?</button>
         </div>
       </div>
     </div>

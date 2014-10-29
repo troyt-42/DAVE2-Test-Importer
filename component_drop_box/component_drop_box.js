@@ -7,23 +7,38 @@ dropBoxComponent.directive("daveDropBoxData", function(){
     templateUrl : "component_drop_box/component_drop_box_data.html",
     scope : {
       boxName : "@",
-      boxContent : "@",
-      placeToDrop : "="
+      boxContent : "@"
     },
     transclude : true,
     controller : function($scope){
       $scope.extendField = false;
+
       $scope.dropAction = function(){
-        $scope.boxContent = eval($scope.boxContent);
-        console.log(typeof $scope.boxContent);
-        console.log($scope.boxContent);
-        for(var i = 0; i < $scope.placeToDrop.length; i++){
-          var fieldName = Object.keys($scope.boxContent[i])[0];
-          $scope.placeToDrop[i][fieldName] = $scope.boxContent[i][fieldName];
+        var temp = [];
+        temp.push("Date");
+        temp.push($scope.boxName);
+        temp.push($scope.boxContent);
+        console.log(temp);
+        $scope.$emit("Confirm", temp);
+
+        if ($scope.extendField){
+          $scope.extendField = false;
+        } else {
+          $scope.extendField = true;
         }
-        $scope.extendField = !$scope.extendField;
-        console.log($scope.extendField);
+
+        $scope.$emit("Close Others");
       };
+
+      $scope.$on("Close", function(event, sender){
+
+        console.log(angular.equals(sender, event.currentScope));
+        console.log(sender);
+        console.log(event.currentScope);
+        if(sender !== event.currentScope){
+          event.currentScope.extendField = false;
+        }
+      });
     }
   };
 });
@@ -34,21 +49,11 @@ dropBoxComponent.directive("daveDropBoxMeta", function(){
     templateUrl : "component_drop_box/component_drop_box_meta.html",
     scope : {
       boxName : "@",
-      boxContent : "@",
-      placeToDrop : "="
+      boxContent : "@"
     },
     controller : function($scope){
       $scope.dropAction = function(){
-        console.log($scope.boxContent);
-        console.log(typeof $scope.boxContent);
-        $scope.boxContent = JSON.parse($scope.boxContent);
-        var fieldName = Object.keys($scope.boxContent);
-        var fieldDetails = $scope.boxContent[fieldName];
-        var fieldDetailsNames = Object.keys(fieldDetails);
-        for (var i = 0; i < fieldDetailsNames.length; i++){
-          var detailName = fieldDetailsNames[i];
-          $scope.placeToDrop[fieldName][detailName] = fieldDetails[detailName];
-        }
+
       };
     }
   };

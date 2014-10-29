@@ -5,11 +5,8 @@ tableComponent.directive("daveTable", function(){
     restrict : 'E',
     templateUrl :"component_table/component_table.html",
     scope:{
-      selectionData : "=",
+      headers : "=",
       fieldValues : "="
-    },
-    controller : function($scope){
-      $scope.headers = Object.keys($scope.selectionData);
     }
   };
 });
