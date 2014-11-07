@@ -1,4 +1,4 @@
-var importer = angular.module("importer", ["ngAnimate", "selectionComponent", "menuComponent","tableComponent", "dropBoxComponent","panelComponent",'angularFileUpload', 'btford.socket-io']);
+var importer = angular.module("importer", ["ngAnimate", "selectionComponent", "menuComponent","columnComponent", "dropBoxComponent","panelComponent",'angularFileUpload', 'btford.socket-io']);
 
 
 importer.factory("daveFormatService", function(){
@@ -25,13 +25,6 @@ importer.factory('uploadSocket',function(socketFactory){
 
 importer.controller("importerCtrl", ["$scope", "$http", "FileUploader", "daveFormatService",'uploadSocket', function($scope, $http, FileUploader,daveFormatService, uploadSocket){
   $scope.uploader = new FileUploader({url : "http:///10.3.86.65:3000/upload", removeAfterUpload : false});
-  $scope.username = {username : prompt("Please input your username.")};
-  $http.post('http:///10.3.86.65:3000/username', $scope.username).success(function() {
-		console.log("success!");
-	}).
-	error(function(status) {
-		console.log(status);
-	});
 
 
   $scope.formattedData = [
@@ -1018,3 +1011,13 @@ importer.controller("importerCtrl", ["$scope", "$http", "FileUploader", "daveFor
     $scope.$broadcast("Close", event.targetScope);
   });
 }]);
+
+/*importer.run(['$http', function($http){
+  username = {username : prompt("Please input your username.")};
+  $http.post('http:///10.3.86.65:3000/username', username).success(function() {
+    console.log("success!");
+  }).
+  error(function(status) {
+    console.log(status);
+  });
+}]);*/

@@ -4,9 +4,10 @@
   display: table;
   vertical-align: middle;
   text-align: center;
-  background-color: #69ba29;
+  background-color: #F5F5DC;
+
 }
 
 .tt-panel-body{
-  background-color: #3A8AD3;
+  background-color: white;
 }

@@ -11,6 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/normalize.css/normalize.css">
   <link rel="stylesheet" type="text/css" href="app.css"/>
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="component_menu/component_menu.css"/>
@@ -30,10 +31,10 @@
 
       <ul class="nav navbar-nav nav-tabs col-md-12">
         <li><a class = "options_navbar home_tab" href="#">Home</a></li>
-        <li><a class = "options_navbar" href="#">Data Retrive</a></li>
+        <li><a class = "options_navbar" href="#/dataItemDisplay">Data Item Display</a></li>
         <li><a class = "options_navbar" href="#">Analyse</a></li>
         <li><a class = "options_navbar" href="#">Exports</a></li>
-        <li class="active"><a class = "options_navbar" href="#/Importer">Importer</a></li>
+        <li><a class = "options_navbar" href="#/Importer">Importer</a></li>
 
         <form class="navbar-form navbar-right" role="search" style="margin-right:0px">
           <div class="form-group">
@@ -57,21 +58,26 @@
 
 
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script src="/bower_components/angular/angular.js"></script>
-  <script src="/bower_components/angular-route/angular-route.js"></script>
-  <script src="/bower_components/angular-animate/angular-animate.js"></script>
-  <script src="/bower_components/angular-file-upload/angular-file-upload.js"></script>
-  <script src="/bower_components/angular-socket-io/socket.js"></script>
-  <script src="https://cdn.socket.io/socket.io-1.1.0.js"></script>
-  <script src="app.js" type ="application/javascript"></script>
-  <script src="component_selection/component_selection.js" type ="application/javascript"></script>
-  <script src="component_menu/component_menu.js" type ="application/javascript"></script>
-  <script src="component_table/component_table.js" type ="application/javascript"></script>
-  <script src="component_drop_box/component_drop_box.js" type ="application/javascript"></script>
-  <script src="component_panel/component_panel.js" type ="application/javascript"></script>
-  <script src="app_importer/app_importer.js" type ="application/javascript"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" defer></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" defer></script>
+  <script src="/bower_components/angular/angular.js" defer></script>
+  <script src="/bower_components/angular-route/angular-route.js" defer></script>
+  <script src="/bower_components/angular-animate/angular-animate.js" defer></script>
+  <script src="/bower_components/angular-file-upload/angular-file-upload.js" defer></script>
+  <script src="/bower_components/angular-socket-io/socket.js" defer></script>
+  <script src="/bower_components/highcharts/highcharts.js" defer></script>
+  <script src="/bower_components/highcharts-ng/dist/highcharts-ng.js" defer></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap.js" defer></script>
+  <script src="https://cdn.socket.io/socket.io-1.1.0.js" defer></script>
+  <script src="app.js" type ="application/javascript" defer></script>
+  <script src="component_selection/component_selection.js" type ="application/javascript" defer></script>
+  <script src="component_menu/component_menu.js" type ="application/javascript" defer></script>
+  <script src="component_column/component_column.js" type ="application/javascript" defer></script>
+  <script src="component_drop_box/component_drop_box.js" type ="application/javascript" defer></script>
+  <script src="component_panel/component_panel.js" type ="application/javascript" defer></script>
+  <script src="component_table/component_table.js" type ="application/javascript" defer></script>
+  <script src="app_importer/app_importer.js" type ="application/javascript" defer></script>
+  <script src="app_data_item_display/data_item_display.js" type ="application/javascript" defer></script>
 </body>
 </body>
 
