@@ -34,6 +34,7 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
     console.log("page changed");
     chunk = initialData.data.slice(newValue * 10 - 10, newValue * 10);
     $scope.tableRowsToShow = chunk;
+    $scope.tableRows = chunk;
   });
   $scope.chosen = false;
 

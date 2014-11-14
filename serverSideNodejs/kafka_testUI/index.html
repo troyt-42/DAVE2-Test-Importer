@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="kafkaTestApp"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Kafka Test APP</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body ng-controller = 'kafkaTestCtrl'>
+
+
+  <div class = 'col-md-4'>
+    <h1>{{topicName}}</h1>
+    <div class = 'btn btn-info' ng-click = 'createNewTopic()'>Create A New Topic</div>
+    <br>
+
+    Send Message To Topic:
+    <input type= 'text' name='send' ng-model = 'messageToSend' placeholder = 'message to send'>
+    <div class = 'btn btn-info' ng-click = 'sendMessageToTopic()'>Send</div>
+    <br>
+
+    Stop Receive Message:
+    <div class = 'btn btn-warning' ng-click = 'unsubscribeTopic()'>Stop</div>
+    <br>
+
+
+  </div>
+
+  <div class = 'col-md-8'>
+
+    <div class="panel panel-default">
+      <div class="panel-body" ng-repeat = 'message in messages'>
+        Topic: {{message.topic}}
+        Content: {{message.value}}
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" defer></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" defer></script>
+  <script src="../../bower_components/angular/angular.js" defer></script>
+  <script src="../../bower_components/angular-route/angular-route.js" defer></script>
+  <script src="../../bower_components/angular-animate/angular-animate.js" defer></script>
+  <script src="../../bower_components/angular-file-upload/angular-file-upload.js" defer></script>
+  <script src="../../bower_components/angular-socket-io/socket.js" defer></script>
+  <script src="../../bower_components/highcharts/highcharts.js" defer></script>
+  <script src="../../bower_components/highcharts-ng/dist/highcharts-ng.js" defer></script>
+  <script src="../../bower_components/angular-bootstrap/ui-bootstrap.js" defer></script>
+  <script src="https://cdn.socket.io/socket.io-1.1.0.js" defer></script>
+  <script src="kafka_test.js" type ="application/javascript" defer></script>
+</body>
+</body>
+
+</html>

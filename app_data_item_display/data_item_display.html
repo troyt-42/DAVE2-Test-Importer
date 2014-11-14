@@ -23,10 +23,12 @@
 
     <div class = "col-md-9">
 
-      <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
-      <button class = "btn btn-success" ng-click = 'chosen = false'>Show List</button>
 
-      <div ><img src="imgs/5-121204193Q8.gif" ng-if = "loading"></div>
+      <div>
+        <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
+        <button class = "btn btn-success" ng-click = 'chosen = false'>Show List</button>
+        <img src="imgs/5-121204193Q8.gif" ng-if = "loading">
+      </div>
       <hr>
       <dave-table rows = 'tableRowsToShow' ng-if = "!chosen" >
       </dave-table>
