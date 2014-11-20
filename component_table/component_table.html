@@ -1,12 +1,16 @@
 <table class = "table table-hover">
   <thead>
     <tr>
-      <th ng-repeat = "header in headers">{{header}}</th>
+      <th ng-repeat = "header in headers track by $index" style='background-color: gray'>
+        <label for="{{header}}" style ="color:white">{{header}}</label>
+        <input type= 'text' name="{{header}}" ng-change = 'inputChanged(header)' ng-model = 'headerValues[header]'></input>
+      </th>
+
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat = "row in rows" ng-click = "choseThisItem(row)">
+    <tr ng-repeat = "row in rows track by $index" ng-click = "choseThisItem(row)">
       <td ng-repeat = "value in row | sortObjectToArray:headers track by $index">{{value}}</td>
     </tr>
   </tbody>

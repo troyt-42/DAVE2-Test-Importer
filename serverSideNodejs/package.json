@@ -1,18 +1,18 @@
 {
-	"name": "Importer-NodeJs-Server",
-	"description": "A test project of DAVE2",
-	"version": "0.0.1",
-	"repository": "https://github.com/watrool/Importer.git",
-	"license": "MIT",
-	"dependencies" :
-	{
-		"debug" : "2.0.0",
-		"multiparty" : "3.3.2",
-		"body-parser": "1.9.0",
-		"zookeeper" : "3.4.6-3",
-		"socket.io" : "1.1.0",
-		"express" : "4.9.5",
-		"kafka-node" : "0.2.10",
-		"node-zookeeper-client" : "0.2.1"
-	}
+  "name": "Importer-NodeJs-Server",
+  "description": "A test project of DAVE2",
+  "version": "0.0.1",
+  "repository": "https://github.com/watrool/Importer.git",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "1.9.0",
+    "debug": "2.0.0",
+    "express": "4.9.5",
+    "kafka-node": "0.2.10",
+    "multiparty": "3.3.2",
+    "node-zookeeper-client": "0.2.1",
+    "q": "^1.1.1",
+    "socket.io": "1.1.0",
+    "zookeeper": "3.4.6-3"
+  }
 }

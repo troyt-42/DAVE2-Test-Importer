@@ -1,4 +1,4 @@
-var dave2App = angular.module("dave2App", ["importer",'angularFileUpload', 'ngRoute','dataItemDisplay']);
+var dave2App = angular.module("dave2App", ["chatApp", "importer",'angularFileUpload', 'ngRoute','dataItemDisplay', 'PK.controllers']);
 
 dave2App.factory('dataLib', ['$http', function($http){
 
@@ -33,6 +33,29 @@ dave2App.config(["$routeProvider", function($routeProvider){
         return dataLib.getInitalData();
       }
     }
+  }).when('/Chatter', {
+    templateUrl : 'app_chatter/app_chatter.html',
+    controller : 'chatController'
+  })
+  .when('/Three', {
+    templateUrl : 'PK/two.htm',
+    controller : 'twoCtrl'
+  }).when('/Four',{
+    templateUrl : 'PK/three.htm',
+    controller : 'threeCtrl'
+  }).when('/Five', {
+    templateUrl : 'PK/four.htm',
+    controller : 'fourCtrl'
+  }).when('/Six', {
+    templateUrl : 'PK/five.htm',
+    controller: 'fiveCtrl'
   })
   .otherwise({redirectTo: '/'});
+}]);
+
+dave2App.controller('dave2Ctrl', ['$scope','$location', function($scope, $location){
+  $scope.navClass = function(page){
+    var currentRoute = $location.path();
+    return page === currentRoute ? 'active' : '';
+  };
 }]);

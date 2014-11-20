@@ -23,20 +23,37 @@ dataItemDisplay.filter("customized", function(){
 });
 
 dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scope','customizedFilter', function(initialData,$http, $scope,customizedFilter){
-  var chunk = initialData.data.slice(0, 10);
+  $scope.completeDataSet = initialData.data;
+
+  var chunk = $scope.completeDataSet.slice(0, 10);
   $scope.tableRows = chunk;
 
   $scope.totalItems = 100;
   $scope.currentPage = 1;
   $scope.maxSize = 10;
 
+
+
   $scope.$watch('currentPage', function(newValue, oldValue){
     console.log("page changed");
-    chunk = initialData.data.slice(newValue * 10 - 10, newValue * 10);
-    $scope.tableRowsToShow = chunk;
+    chunk = $scope.completeDataSet.slice(newValue * 10 - 10, newValue * 10);
     $scope.tableRows = chunk;
   });
+
+
   $scope.chosen = false;
+  $scope.expand = false;
+  $scope.mainAreaClass = 'not-expand-table';
+
+  $scope.expandFn = function(){
+    if($scope.expand){
+      $scope.expand = false;
+      $scope.mainAreaClass = 'not-expand-table';
+    } else {
+      $scope.expand = true;
+      $scope.mainAreaClass = 'expand-table';
+    }
+  };
 
   $scope.getRandomColor = function () {
     var letters = '0123456789ABCDEF'.split('');
@@ -90,14 +107,12 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
 
 
 
-
-$scope.tableRowsToShow = $scope.tableRows;
-
 $scope.applyFilter = function(keyWord,keyWordValue){
   if(keyWord && keyWordValue){
-    $scope.tableRowsToShow = customizedFilter($scope.tableRows,keyWord,keyWordValue);
+    $scope.completeDataSet = customizedFilter(initialData.data, keyWord, keyWordValue);
+    $scope.tableRows = $scope.completeDataSet.slice($scope.currentPage * 10 - 10, $scope.currentPage * 10);
   } else {
-    $scope.tableRowsToShow = $scope.tableRows;
+    $scope.tableRows = initialData.data.slice($scope.currentPage * 10 - 10, $scope.currentPage * 10);
   }
 };
 
@@ -152,7 +167,10 @@ $scope.$on('choseThisItem', function(event, item){
 });
 
 $scope.$on('inputChanged', function(event, fieldname,fieldvalue){
-  $scope.applyFilter(fieldname, fieldvalue.value);
+  console.log(event.name);
+  console.log(fieldname);
+  console.log(fieldvalue);
+  $scope.applyFilter(fieldname, fieldvalue);
 });
 
 }]);

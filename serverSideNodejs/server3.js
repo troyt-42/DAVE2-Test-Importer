@@ -3,6 +3,8 @@ var kafka = require('kafka-node');
 var bodyparser = require('body-parser');
 var io = require('socket.io');
 var http = require('http');
+var Q = require('q');
+
 
 var app = express();
 var server = http.createServer(app);
@@ -48,19 +50,25 @@ socket.on('connection', function(client){
       console.log(data);
     });
 
+    Q.fcall(function(){
+      return sender.send([{topic: client.id, messages: 'test'}], function(err, data){
+        console.log(data);
+        console.log(err);
+      });
+    }).then(function(){
+      return receiver.addTopics([client.id], function(err, added){
+        if (added) {
+          console.log('add success result: '+ added);
+          client.emit('created', client.id);
+        } else {
+          console.log('add err result: ' + err );
+        }
+      });
+    }).fail(function(err){
+      throw err;
+    });
 
-    sender.send([{topic: client.id, messages: 'test'}], function(err, data){
-      console.log(data);
-      console.log(err);
-    });
-    receiver.addTopics([client.id], function(err, added){
-      if (added) {
-        console.log('add success result: '+ added);
-        client.emit('created', client.id);
-      } else {
-        console.log('add err result: ' + err );
-      }
-    });
+
 
 
   });

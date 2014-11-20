@@ -16,6 +16,9 @@
     "normalize.css": "~3.0.2",
     "highcharts": "~4.0.4",
     "highcharts-ng": "~0.0.7",
-    "angular-bootstrap": "~0.11.2"
+    "angular-bootstrap": "~0.11.2",
+    "angular-snap": "~1.6.0",
+    "angular-ui-sortable": "~0.13.1",
+    "angular-dragdrop": "1.0.6"
   }
 }

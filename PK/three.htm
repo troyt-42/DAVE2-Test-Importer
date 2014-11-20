@@ -1,0 +1,145 @@
+<snap-drawers style = "margin-top:70px">
+    <snap-drawer-left>
+    </snap-drawer-left>
+</snap-drawers>
+
+<snap-content style = "margin-top:70px">
+
+<button style="float:left;" snap-toggle="left"><i class="glyphicon glyphicon-hand-left"></i></button>
+
+<div style="width:90%; margin-left:auto; margin-right:auto; padding-top:40px; height:600px;" class="row">
+<div class="span8">
+
+    <menu id="nestable-menu">
+        <button type="button" data-action="expand-all">Expand All</button>
+        <button type="button" data-action="collapse-all">Collapse All</button>
+    </menu>
+
+
+
+
+
+        <div class="dd" id="nestable">
+            <ol class="dd-list">
+                <li class="dd-item" data-id="1">
+                    <div class="dd-handle">Chatham Plant</div>
+                </li>
+                <li class="dd-item" data-id="2">
+                    <div class="dd-handle">Johnstown Plant</div>
+                    <ol class="dd-list">
+                        <li class="dd-item" data-id="3"><div class="dd-handle">Mashing</div></li>
+                        <li class="dd-item" data-id="4"><div class="dd-handle">Fermentation</div></li>
+                        <li class="dd-item" data-id="5">
+                            <div class="dd-handle">Distillation</div>
+                            <ol class="dd-list">
+                                <li class="dd-item" data-id="6"><div class="dd-handle">TK-1501</div></li>
+                                <li class="dd-item" data-id="7">
+                                    <div class="dd-handle">TK-1502</div>
+                                    <ol class="dd-list">
+                                        <li class="dd-item" data-id="8"><div class="dd-handle">P-1502</div></li>
+                                        <li class="dd-item" data-id="9"><div class="dd-handle">M-1502</div></li>
+                                            <li class="dd-item" data-id="10">
+                                            <div class="dd-handle">V-1502</div>
+                                            <ol class="dd-list">
+                                                <li class="dd-item" data-id="11"><div class="dd-handle">PSV-1502</div></li>
+                                                <li class="dd-item" data-id="12"><div class="dd-handle">FV-1502</div></li>
+                                                <li class="dd-item" data-id="13"><div class="dd-handle">CV-1502</div></li>
+                                            </ol>
+                                    </ol>
+                                <li class="dd-item" data-id="14"><div class="dd-handle">TK-1503</div></li>
+                            </ol>
+                        </li>
+                        <li class="dd-item" data-id="15"><div class="dd-handle">Tank Farm</div></li>
+                        <li class="dd-item" data-id="16"><div class="dd-handle">Admin Building</div></li>
+                    </ol>
+                </li>
+                <li class="dd-item" data-id="17">
+                    <div class="dd-handle">Tiverton Plant</div>
+                </li>
+                <li class="dd-item" data-id="18">
+                    <div class="dd-handle">Varennes Plant</div>
+                </li>
+            </ol>
+        </div>
+
+
+
+
+        <div class="dd" id="nestable2">
+            <ol class="dd-list">
+                <li class="dd-item" data-id="13">
+                    <div class="dd-handle">Item 13</div>
+                </li>
+                <li class="dd-item" data-id="14">
+                    <div class="dd-handle">Item 14</div>
+                </li>
+                <li class="dd-item" data-id="15">
+                    <div class="dd-handle">Item 15</div>
+                    <ol class="dd-list">
+                        <li class="dd-item" data-id="16"><div class="dd-handle">Item 16</div></li>
+                        <li class="dd-item" data-id="17"><div class="dd-handle">Item 17</div></li>
+                        <li class="dd-item" data-id="18"><div class="dd-handle">Item 18</div></li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+
+
+
+</div>
+</div>
+
+
+</snap-content>
+
+<script>
+jQuery(document).ready(function()
+{
+
+    var updateOutput = function(e)
+    {
+        var list   = e.length ? e : jQuery(e.target),
+            output = list.data('output');
+        if (window.JSON) {
+            output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+        } else {
+            output.val('JSON browser support required for this demo.');
+        }
+    };
+
+    // activate Nestable for list 1
+    jQuery('#nestable').nestable({
+        group: 1,
+        maxDepth: 20
+    })
+    .on('change', updateOutput);
+
+    // activate Nestable for list 2
+    jQuery('#nestable2').nestable({
+        group: 1,
+        maxDepth: 20
+    })
+    .on('change', updateOutput);
+
+    jQuery('.dd').nestable('collapseAll');
+
+    // output initial serialised data
+    updateOutput(jQuery('#nestable').data('output', jQuery('#nestable-output')));
+    updateOutput(jQuery('#nestable2').data('output', jQuery('#nestable2-output')));
+
+    jQuery('#nestable-menu').on('click', function(e)
+    {
+        var target = jQuery(e.target),
+            action = target.data('action');
+        if (action === 'expand-all') {
+            jQuery('.dd').nestable('expandAll');
+        }
+        if (action === 'collapse-all') {
+            jQuery('.dd').nestable('collapseAll');
+        }
+    });
+
+    jQuery('#nestable3').nestable();
+
+});
+</script>

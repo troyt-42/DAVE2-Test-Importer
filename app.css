@@ -25,6 +25,10 @@ body{
   color: white;
 }
 
+.options_navbar.active{
+  background-color:white;
+  color: #3A8AD3;
+}
 .option_navbar:hover{
 }
 
@@ -90,4 +94,117 @@ body{
 .readySign{
   display:table-cell;
   width:2%;
+}
+
+
+/****************************************************/
+
+
+/*left drawer on two.htm*/
+.two-left-list{width: 240px; height: 95%;}
+.btn-droppable { width: 226px; height: 40px; padding-left: 2px; text-align: left; }
+.btn-draggable { width: 222px; text-align: left; }
+
+
+/*SNAP DRAWERS and CONTENT*/
+
+.snap-content {
+  position: absolute;
+  height: auto;
+  top: 52px;
+  bottom: 0;
+  width: auto;
+  left: 0;
+  right: 0;
+}
+
+.snap-content {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-overflow-scrolling: touch;
+  -moz-overflow-scrolling: touch;
+  -o-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #E0E0E0  ;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: #E0E0E0  ;
+  background-color: white;
+  padding: 10px;
+}
+
+.snap-drawers {
+  position: absolute;
+  overflow: auto;
+  background-color: #F8F8F8;
+  padding: 10px;
+  height: auto;
+  top: 52px;
+  bottom: 0;
+  width: auto;
+  left: 0;
+  right: 0;
+}
+
+.snap-drawer-left {
+  left: 0;
+  z-index: 1;
+}
+
+.panel-body {
+margin-left: -10px;
+
+}
+
+
+.panel-title {
+cursor: hand;
+}
+
+
+/***
+   modal / login / password
+**/
+
+.modal-body {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.modal-body * {
+    display: block;
+    margin: 10px 0 5px 0;
+    width: 95%;
+}
+
+#password {
+    display: inline;
+    float: left;
+    max-width: 69%;
+    min-width: 63px;
+}
+
+
+/***
+   Application - DATA ITEM
+**/
+#topRow{
+    margin-left: 30px;
+}
+
+#midRow{
+    border-style: solid;
+    border-width: 1px;
+    border-color: red;
+}
+
+#appTitle, #actionMenu, #redBox{
+    border-style: solid;
+    border-width: 1px;
+    border-color: red;
 }

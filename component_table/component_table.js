@@ -22,8 +22,11 @@ tableComponent.directive('daveTable', function(){
         rows : '='
       },
       controller : function($scope){
+        $scope.headerValues ={};
         if($scope.rows[0]){
           $scope.headers = Object.keys($scope.rows[0]);
+          console.log($scope.rows[0]);
+          console.log($scope.headers);
 
         } else {
           $scope.headers = ['Error: empty content!'];
@@ -31,6 +34,10 @@ tableComponent.directive('daveTable', function(){
 
         $scope.choseThisItem = function(item){
           $scope.$emit('choseThisItem', item);
+        };
+
+        $scope.inputChanged = function(header){
+          $scope.$emit('inputChanged', header, $scope.headerValues[header]);
         };
       }
   };
