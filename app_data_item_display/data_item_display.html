@@ -1,34 +1,24 @@
-<body ng-app ="dataItemDisplay" ng-controller = "dataItemDisplayCtrl">
 
-  <div class = "row" >
-    <div class = "col-md-3 animate-if well" ng-if='expand'>
-
-
-      <dave-menu  calss = 'animate-if' header = "'Filters'" ng-if = "expand">
-        <dave-menu-field field-label = "'Id'" field-type = "'text'" place-to-return ="idValue" ></dave-menu-field>
-        <dave-menu-field field-label = "'Name'" field-type = "'text'" place-to-return ="nameValue" ></dave-menu-field>
-        <dave-menu-field field-label = "'Location'" field-type = "'text'" place-to-return ="locationValue"></dave-menu-field>
-        <dave-menu-field field-label = "'Owner'" field-type = "'text'" place-to-return ="ownerValue"></dave-menu-field>
-        <hr>
-      </dave-menu>
+<div class = "row" style ="margin:0px">
+  <div class = "col-md-3 animate-if-slide well" ng-if='expand'>
+    <dave-panel panel-heading = "Select Columns To Show"></dave-panel>
 
 
 
-    </div>
-
-    <div ng-class = "mainAreaClass" class = 'base-class' style = 'margin-left:15px;'>
-        <div>
-          <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
-          <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
-          <button class = "btn btn-success" ng-click = 'chosen = false'>Show List</button>
-          <img src="imgs/5-121204193Q8.gif" ng-if = "loading">
-        </div>
-        <hr>
-        <dave-table rows = 'tableRows' ng-if = "!chosen">
-        </dave-table>
-        <highchart id = 'item1' config = "chartConfig" ng-if = "chosen"></highchart>
-        <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
-
-    </div>
   </div>
-</body>
+
+  <div class = 'base-class'>
+    <div>
+      <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
+      <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
+      <button class = "btn btn-success" ng-click = 'chosen = false'>Show List</button>
+      <img src="imgs/5-121204193Q8.gif" ng-if = "loading">
+    </div>
+    <hr>
+    <dave-table rows = 'tableRows' ng-if = "!chosen">
+    </dave-table>
+    <highchart id = 'item1' config = "chartConfig" ng-if = "chosen"></highchart>
+    <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
+
+  </div>
+</div>

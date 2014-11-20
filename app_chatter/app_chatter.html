@@ -1,14 +1,6 @@
 
+<div style="border:1px solid red;height:500px;width:90%; position:relative;overflow:scroll" >
+	<div style="position:absolute;top:10px;left:10px" id = "chatWindow"></div>
+</div>
 
-<body ng-controller = "chatController as chatCtrl">
-
-	<div style="border:1px solid red;height:500px;width:90%; position:relative;overflow:scroll" >
-		<div style="position:absolute;top:10px;left:10px" id = "chatWindow"></div>
-	</div>
-
-	<input ng-model = "message" type="text" id = "chat"> <button type = "button" ng-click = "sendMessage(message)">Send</button>
-
-
-
-
-</body>
+<input ng-model = "message" type="text" id = "chat"> <button type = "button" ng-click = "sendMessage(message)">Send</button>

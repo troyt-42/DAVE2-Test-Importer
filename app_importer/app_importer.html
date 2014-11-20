@@ -1,53 +1,48 @@
 
-<body ng-app ="importer" ng-controller = "importerCtrl">
 
+<div class ="row">
 
+  <div class = "col-md-3">
 
-  <div class ="row">
+    <dave-menu header = "'Upload File'" ng-if = "selection">
+      <dave-menu-field field-label = "'Type'" field-type = "'selection'" select-options = "['.csv','.txt']" place-to-return = "menuFieldDetail.fieldType"></dave-menu-field>
+      <dave-menu-field field-label = "'Name'" field-type = "'text'" place-to-return = "menuFieldDetail.fieldName"></dave-menu-field>
+      <dave-menu-field field-label = "'File'" field-type = "'file'" place-to-return = "menuFieldDetail.fieldUploader"></dave-menu-field>
 
-    <div class = "col-md-3">
-
-      <dave-menu header = "'Upload File'" ng-if = "selection">
-        <dave-menu-field field-label = "'Type'" field-type = "'selection'" select-options = "['.csv','.txt']" place-to-return = "menuFieldDetail.fieldType"></dave-menu-field>
-        <dave-menu-field field-label = "'Name'" field-type = "'text'" place-to-return = "menuFieldDetail.fieldName"></dave-menu-field>
-        <dave-menu-field field-label = "'File'" field-type = "'file'" place-to-return = "menuFieldDetail.fieldUploader"></dave-menu-field>
-
-        <div class="form-group">
-          <div class="col-sm-6">
-            <button type="submit" class="btn btn-success btn-block" ng-click="submitUpload()">Submit</button>
-          </div>
-          <div class="col-sm-6">
-            <button type="button" class ="btn btn-inverse btn-block" >Reset</button>
-          </div>
+      <div class="form-group">
+        <div class="col-sm-6">
+          <button type="submit" class="btn btn-success btn-block" ng-click="submitUpload()">Submit</button>
         </div>
-      </dave-menu>
-
-      <dave-panel panel-heading = "Selected Fields" ng-if = "confirmation">
-        <div ng-repeat = "field in formattedData">
-          <dave-drop-box-data box-name = "{{field.Meta.Name}}" box-content = "{{field.data}}">
-            <div class="panel-body tt-field-panel" ng-repeat = "detail in fieldDetails">
-              <div class = "tt-field-text" >{{detail.detailName}}</div>
-              <dave-drop-box-meta box-name = "{{field.Meta[detail.detailName]}}"></dave-drop-box-meta>
-              <hr>
-            </div>
-          </dave-drop-box-data>
+        <div class="col-sm-6">
+          <button type="button" class ="btn btn-inverse btn-block" >Reset</button>
         </div>
-      </dave-panel>
+      </div>
+    </dave-menu>
 
-    </div>
-
-
-    <div class = 'col-md-9 animate-if-2' ng-if = "stepOne">
-      <dave-selection d2-meta-data = "filesMetaData" d2-data = "fieldsData[filesMetaData.filename]" field-details = "fieldDetails"></dave-selection>
-    </div>
-
-    <div class = "col-md-9 animate-if-2" ng-if = "stepTwo">
-      <dave-column headers = "headers" field-values = "realData" ></dave-column>
-    </div>
-
-
-
+    <dave-panel panel-heading = "Selected Fields" ng-if = "confirmation">
+      <div ng-repeat = "field in formattedData">
+        <dave-drop-box-data box-name = "{{field.Meta.Name}}" box-content = "{{field.data}}">
+          <div class="panel-body tt-field-panel" ng-repeat = "detail in fieldDetails">
+            <div class = "tt-field-text" >{{detail.detailName}}</div>
+            <dave-drop-box-meta box-name = "{{field.Meta[detail.detailName]}}"></dave-drop-box-meta>
+            <hr>
+          </div>
+        </dave-drop-box-data>
+      </div>
+    </dave-panel>
 
   </div>
 
-</body>
+
+  <div class = 'col-md-9 animate-if-2' ng-if = "stepOne">
+    <dave-selection d2-meta-data = "filesMetaData" d2-data = "fieldsData[filesMetaData.filename]" field-details = "fieldDetails"></dave-selection>
+  </div>
+
+  <div class = "col-md-9 animate-if-2" ng-if = "stepTwo">
+    <dave-column headers = "headers" field-values = "realData" ></dave-column>
+  </div>
+
+
+
+
+</div>

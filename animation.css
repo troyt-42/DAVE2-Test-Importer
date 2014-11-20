@@ -1,22 +1,23 @@
-.animate-if {
+.animate-if-slide {
   overflow:hidden;
   height:1000px;
+  padding:0;
 }
 
-.animate-if.ng-enter, .animate-if.ng-leave {
+.animate-if-slide.ng-enter, .animate-if-slide.ng-leave {
   -webkit-transition:all cubic-bezier(.42,0,.58,1) 1.0s;
   transition:all cubic-bezier(.42,0,.58,1) 1.0s;
 }
 
-.animate-if.ng-enter,
-.animate-if.ng-leave.ng-leave-active {
-  width:0%;
+.animate-if-slide.ng-enter,
+.animate-if-slide.ng-leave.ng-leave-active {
+  width:0;
   opacity:0;
 
 }
 
-.animate-if.ng-leave,
-.animate-if.ng-enter.ng-enter-active {
+.animate-if-slide.ng-leave,
+.animate-if-slide.ng-enter.ng-enter-active {
   width:25%;
   opacity:1;
 }
@@ -25,12 +26,5 @@
 .base-class{
   -webkit-transition:all cubic-bezier(.42,0,.58,1) 1.0s;
   transition:all cubic-bezier(.42,0,.58,1) 1.0s;
-}
-
-
-.not-expand-table{
-  overflow:hidden;
-}
-.expand-table{
   overflow:hidden;
 }

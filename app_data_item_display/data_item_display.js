@@ -43,15 +43,15 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
 
   $scope.chosen = false;
   $scope.expand = false;
-  $scope.mainAreaClass = 'not-expand-table';
+  $scope.mainAreaClass = '';
 
   $scope.expandFn = function(){
     if($scope.expand){
       $scope.expand = false;
-      $scope.mainAreaClass = 'not-expand-table';
+      $scope.mainAreaClass = 'col-md-12';
     } else {
       $scope.expand = true;
-      $scope.mainAreaClass = 'expand-table';
+      $scope.mainAreaClass = 'col-md-9';
     }
   };
 
