@@ -1,8 +1,8 @@
 {
-  "name": "angular-loader",
+  "name": "angular-route",
   "version": "1.2.27",
-  "description": "AngularJS module for asynchronously loading modules",
-  "main": "angular-loader.js",
+  "description": "AngularJS router module",
+  "main": "angular-route.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,7 +14,7 @@
     "angular",
     "framework",
     "browser",
-    "loader",
+    "router",
     "client-side"
   ],
   "author": "Angular Core Team <angular-core+npm@google.com>",

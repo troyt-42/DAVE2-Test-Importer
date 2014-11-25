@@ -1,6 +1,8 @@
 /* app css stylesheet */
 body{
   background:radial-gradient(circle, linen, white);
+  overflow-x:scroll;
+  overflow-y:hidden;
 }
 
 
@@ -81,14 +83,13 @@ body{
 }
 
 .filename{
-  display:table-cell;
-  width:40%;
-  border:1px,black,solid;
+  font-family: 'american';
+  font-weight: bold;
 }
 
 .selectButton{
   display:table-cell;
-  width:58%;
+  float:right;
 }
 
 .readySign{

@@ -24,6 +24,16 @@ importer.factory('uploadSocket',function(socketFactory){
 });
 
 importer.controller("importerCtrl", ["$scope", "$http", "FileUploader", "daveFormatService",'uploadSocket', function($scope, $http, FileUploader,daveFormatService, uploadSocket){
+
+  var username = {username : prompt("Please input your username.")};
+  $http.post('http:///10.3.86.65:3000/username', username).success(function() {
+    console.log("success!");
+  }).
+  error(function(status) {
+    console.log(status);
+  });
+
+
   $scope.uploader = new FileUploader({url : "http:///10.3.86.65:3000/upload", removeAfterUpload : false});
 
 

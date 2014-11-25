@@ -1,24 +1,80 @@
 
 <div class = "row" style ="margin:0px">
   <div class = "col-md-3 animate-if-slide well" ng-if='expand'>
-    <dave-panel panel-heading = "Select Columns To Show"></dave-panel>
+    <dave-panel panel-heading = "Select Columns To Show" ng-if = '!chosen'>
+
+
+      <ul class = "list-group">
+        <li class = "list-group-item list-group-item-info row" ng-repeat = "field in fieldsInfo.avaliable">
+          <div class = "filename col-md-4" style = "color:black;margin-top:7px;">{{field}}</div>
+
+          <div class = "col-md-8" style="padding:0px;">
+
+            <div style = "width:46px;height:34px;padding:0px;margin-bottom:-14px;display:inline-block">
+
+              <div class="btn-group" ng-if = "fieldsInfo.selection.indexOf(field) !== -1">
+                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  {{fieldsInfo.selection.indexOf(field) + 1}}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                  <li role="presentation" ng-repeat = "i in fieldsInfo.selection"><a ng-click = "changeOrderTo(field, $index)">{{$index + 1}}</a></li>
+                </ul>
+              </div>
+
+            </div>
+
+
+            <button class ="btn btn-success" ng-click = "selectField(field)">Select</button>
+            <button class ="btn btn-danger" ng-click = "deleteField(field)">Delete</button>
+
+            <div class="glyphicon glyphicon-ok" style = "color:green;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) !== -1"></div>
+            <div class="glyphicon glyphicon-remove" style = "color:red;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) === -1"></div>
+          </li>
+        </ul>
 
 
 
-  </div>
 
-  <div class = 'base-class'>
-    <div>
-      <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
-      <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
-      <button class = "btn btn-success" ng-click = 'chosen = false'>Show List</button>
-      <img src="imgs/5-121204193Q8.gif" ng-if = "loading">
+      </dave-panel>
+
+
+
     </div>
-    <hr>
-    <dave-table rows = 'tableRows' ng-if = "!chosen">
-    </dave-table>
-    <highchart id = 'item1' config = "chartConfig" ng-if = "chosen"></highchart>
-    <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
 
+    <div class = 'base-class' ng-class = "mainAreaClass" >
+      <div>
+        <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
+        <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
+        <button class = "btn btn-success" ng-click = 'chosen = false'>Show List</button>
+        <img src="imgs/5-121204193Q8.gif" ng-if = "loading">
+      </div>
+      <hr>
+      <dave-table rows = 'tableRows' fields-to-show = "fieldsInfo" ng-if = "!chosen">
+      </dave-table>
+
+      <div class = 'base-class col-md-9'  ng-if = "chosen">
+        <highchart  id = "chartContainer" config = "highchartsNGConfig" ng-if = "chosen"></highchart>
+      </div>
+
+      <div class = "col-md-3" id = "dataItemTable" style = "height:500px;overflow-y:scroll"  ng-if = "chosen" >
+        <table class = "table"  style = "border:1px gray solid">
+          <thead>
+            <tr>
+              <td>Date</td>
+              <td>Value</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id = "anchor{{row.Date}}" ng-repeat = "row in tableData">
+              <td>{{row.Date}}</td>
+              <td>{{row.Value}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
+
+    </div>
   </div>
-</div>

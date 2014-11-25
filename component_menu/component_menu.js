@@ -26,9 +26,6 @@ menuComponent.directive("daveMenuField",function(){
     },
     controller : function($scope){
       console.log($scope.placeToReturn);
-      $scope.inputChanged = function(){
-        $scope.$emit('inputChanged', $scope.fieldLabel,$scope.placeToReturn);
-      };
     }
   };
 });
