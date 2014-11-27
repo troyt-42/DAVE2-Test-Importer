@@ -30,8 +30,10 @@ var zk = new ZooKeeper({
 });
 
 
+
+
 app.get('/getfile/:filename', function(req, res){
-  fs.readFile(req.param('filename'),function (err, data) {
+  fs.readFile(req.param('filename'),{encoding: 'utf8'},function (err, data) {
     if (err) {
       console.log("Error Reading File");
       res.writeHead(404,
@@ -40,8 +42,35 @@ app.get('/getfile/:filename', function(req, res){
         });
         res.end();
       } else {
-        console.log(data);
-        res.write(data);
+        var dataItem = JSON.parse(data);
+        if(dataItem.data){
+          dataItem.data.sort(function compare(a, b){
+            if (Date.parse(a.Date) < Date.parse(b.Date)){
+              return -1;
+            } else if (Date.parse(a.Date) > Date.parse(b.Date)){
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+        }
+
+        var itemData = [];
+
+        for (var key in dataItem.data){
+          var date = Date.parse(dataItem.data[key].Date);
+          var value = dataItem.data[key].Value;
+          var sub = [date, value];
+          itemData.push(sub);
+        }
+
+        itemData.sort(function(a, b){
+          return a[0] - b[0];
+        });
+
+        dataItem.itemData = itemData;
+        
+        res.write(JSON.stringify(dataItem));
         res.end();
       }
     });

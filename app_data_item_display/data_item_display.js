@@ -90,6 +90,9 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
       rangeSelector : {
         selected : 4
       },
+      navigator : {
+        enabled : true
+      },
       legend: {
         itemStyle: {
           fontWeight: 'bold',
@@ -117,18 +120,15 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
           }
         }
       },
-      plotOptions: {
-        candlestick: {
-          lineColor: '#404048'
-        }
-      },
-
-      background2: '#F0F0EA',
 
       tooltip: {
         borderWidth: 0,
         backgroundColor: 'rgba(219,219,216,0.8)',
-        shadow: false
+        shadow: false,
+        crosshairs: {
+          width: 3,
+          color: 'red'
+        }
       },
 
       colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
@@ -148,34 +148,63 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
       data : $scope.itemData,
       tooltip: {
         valueDecimals: 2
+      },
+      marker: {
+        enabled: true,
+        fillColor: 'gray'
       }
     }],
     useHighStocks : true,
     size: {
       "width": "40"
     },
-    xAxis : {
-      currentMin: 0,
-      currentMax: 2000000000
-    },
     func : function(chart){
       console.log(chart);
 
-      $scope.highchartsNGConfig.xAxis.currentMin = $scope.highchartsNGConfig.series[0].data[0][0];
-      $scope.highchartsNGConfig.xAxis.currentMax = $scope.highchartsNGConfig.series[0].data[$scope.highchartsNGConfig.series[0].data.length - 1][0];
+      $scope.highchartsExtremes = angular.element('#chartContainer').highcharts().xAxis[0].getExtremes();
+      $scope.noValueSelectedInTalbe = false;
 
+      $scope.$watch('highchartsExtremes', function(newValue, oldValue){
+        if(newValue.max){
 
-      $scope.$watch(function(){
-        return $scope.highchartsNGConfig.xAxis.currentMin;
-      },function(newValue,oldValue){
-        for (var i = 0; i < $scope.rawItemData.length; i++){
-          var date = Date.parse($scope.rawItemData[i].Date);
-          if (date > newValue){
-            $scope.tableData = $scope.rawItemData.slice(i);
-            break;
+          console.log(newValue.max);
+          console.log(newValue.min);
+
+          var max = newValue.max;
+          var min = newValue.min;
+
+          for(var i = 0; i < $scope.rawItemData.length; i++){
+            if(Date.parse($scope.rawItemData[i].Date) >= min){
+              $scope.tableData = $scope.rawItemData.slice(i);
+              break;
+            }
           }
+
+          for(var p = 0; p < $scope.tableData.length; p++){
+            if(Date.parse($scope.tableData[p]) > max){
+              $scope.tableData = $scope.tableData.slice(0, p);
+              break;
+            } else if (Date.parse($scope.tableData[p]) === max){
+              $scope.tableData = $scope.tableData.slice(0, p -1);
+              break;
+            }
+          }
+
+          if($scope.tableData.length === 0){
+            $scope.noValueSelectedInTalbe = true;
+          } else $scope.noValueSelectedInTalbe = false;
         }
       }, true);
+
+      $scope.manualRecursion = function(){
+
+        $timeout(function(){
+          $scope.highchartsExtremes = angular.element('#chartContainer').highcharts().xAxis[0].getExtremes();
+          $scope.manualRecursion();
+        }, 1000);
+      };
+
+      $scope.manualRecursion();
 
     }
   };
@@ -212,15 +241,7 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
 
     $http.get('http://10.3.86.65:3000/getfile/' +　item.Id + ".json").success(function(data){
       $scope.itemDetails = data.details;
-      $scope.rawItemData = data.data.sort(function compare(a, b){
-        if (Date.parse(a.Date) < Date.parse(b.Date)){
-          return -1;
-        } else if (Date.parse(a.Date) > Date.parse(b.Date)){
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      $scope.rawItemData = data.data;
       $scope.tableData = $scope.rawItemData;
       var result = [];
 
@@ -235,6 +256,9 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
         return a[0] - b[0];
       });
       $scope.itemData = result;
+
+
+
       $scope.highchartsNGConfig.series[0].data = $scope.itemData;
       $scope.highchartsNGConfig.series[0].color = $scope.getRandomColor();
       console.log($scope.highchartsNGConfig.series[0].data);

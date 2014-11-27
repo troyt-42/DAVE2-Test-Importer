@@ -57,21 +57,30 @@
         <highchart  id = "chartContainer" config = "highchartsNGConfig" ng-if = "chosen"></highchart>
       </div>
 
-      <div class = "col-md-3" id = "dataItemTable" style = "height:500px;overflow-y:scroll"  ng-if = "chosen" >
-        <table class = "table"  style = "border:1px gray solid">
-          <thead>
-            <tr>
-              <td>Date</td>
-              <td>Value</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr id = "anchor{{row.Date}}" ng-repeat = "row in tableData">
-              <td>{{row.Date}}</td>
-              <td>{{row.Value}}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class = "col-md-3 dip-table-container" id = "dataItemTable" ng-if = "chosen " >
+        <div class = 'dip-table-header-background'></div>
+        <div class = "dip-table-innner-container">
+          <table class = "table dip-table" ng-if = "!noValueSelectedInTalbe">
+            <thead class = "dip-table-header">
+              <tr>
+                <th>
+                  <div style ="border:none;">Date</div>
+                </th>
+                <th>
+                  <div>Value</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class = 'dip-table-body'>
+              <tr ng-repeat = "row in tableData">
+                <td>{{row.Date}}</td>
+                <td style="border-right:none">{{row.Value}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h1 style = "color:red" ng-if = 'noValueSelectedInTalbe'>Not Avaliable</h1>
 
       </div>
       <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
