@@ -1,24 +1,24 @@
 
 <div class = "row" style ="margin:0px">
   <div class = "col-md-3 animate-if-slide well" ng-if='expand'>
-    <dave-panel panel-heading = "Select Columns To Show" ng-if = '!chosen'>
+    <dave-panel panel-heading = "Select Columns To Show" ng-show = '!chosen'>
 
 
       <ul class = "list-group">
-        <li class = "list-group-item list-group-item-info row" ng-repeat = "field in fieldsInfo.avaliable">
+        <li class = "list-group-item list-group-item-info row" ng-repeat = "field in fieldsInfo.avaliable track by $index">
           <div class = "filename col-md-4" style = "color:black;margin-top:7px;">{{field}}</div>
 
           <div class = "col-md-8" style="padding:0px;">
 
             <div style = "width:46px;height:34px;padding:0px;margin-bottom:-14px;display:inline-block">
 
-              <div class="btn-group" ng-if = "fieldsInfo.selection.indexOf(field) !== -1">
+              <div class="btn-group" ng-show = "fieldsInfo.selection.indexOf(field) !== -1">
                 <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                   {{fieldsInfo.selection.indexOf(field) + 1}}
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                  <li role="presentation" ng-repeat = "i in fieldsInfo.selection"><a ng-click = "changeOrderTo(field, $index)">{{$index + 1}}</a></li>
+                  <li role="presentation" ng-repeat = "i in fieldsInfo.selection track by $index"><a ng-click = "changeOrderTo(field, $index)">{{$index + 1}}</a></li>
                 </ul>
               </div>
 
@@ -43,24 +43,28 @@
     </div>
 
     <div class = 'base-class' ng-class = "mainAreaClass" >
+
+
       <div>
         <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
         <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
-        <button class = "btn btn-success" ng-click = 'chosen = false'>Show List</button>
-        <img src="imgs/5-121204193Q8.gif" ng-if = "loading">
+        <button class = "btn btn-success" ng-click = 'destroyGraph();chosen = false'>Show List</button>
+
+        <button class = "btn btn-success" ng-click = 'loadMore()'>Load More</button>
+        <img style = "height:34px"src="imgs/5-121204193Q8.gif" ng-show = "loading">
       </div>
       <hr>
-      <dave-table rows = 'tableRows' fields-to-show = "fieldsInfo" ng-if = "!chosen">
+      <dave-table rows = 'tableRows' fields-to-show = "fieldsInfo" ng-show = "!chosen">
       </dave-table>
 
-      <div class = 'base-class col-md-9'  ng-if = "chosen">
-        <highchart  id = "chartContainer" config = "highchartsNGConfig" ng-if = "chosen"></highchart>
+      <div class = 'base-class col-md-9' id = "chartContainer"  ng-show = "chosen">
       </div>
 
-      <div class = "col-md-3 dip-table-container" id = "dataItemTable" ng-if = "chosen " >
+      <div class = "col-md-3 dip-table-container" id = "dataItemTable" ng-show = "chosen " >
         <div class = 'dip-table-header-background'></div>
-        <div class = "dip-table-innner-container">
-          <table class = "table dip-table" ng-if = "!noValueSelectedInTalbe">
+
+        <div class = "dip-table-innner-container"  infinite-scroll="loadMore()" infinite-scroll-distance="1" >
+          <table class = "table dip-table" ng-show = "!noValueSelectedInTalbe" >
             <thead class = "dip-table-header">
               <tr>
                 <th>
@@ -72,7 +76,7 @@
               </tr>
             </thead>
             <tbody class = 'dip-table-body'>
-              <tr ng-repeat = "row in tableData">
+              <tr ng-repeat = "row in tableDataToShow track by $index">
                 <td>{{row.Date}}</td>
                 <td style="border-right:none">{{row.Value}}</td>
               </tr>
@@ -80,9 +84,8 @@
           </table>
         </div>
 
-        <h1 style = "color:red" ng-if = 'noValueSelectedInTalbe'>Not Avaliable</h1>
+        <h1 style = "color:red" ng-show = 'noValueSelectedInTable'>Not Avaliable</h1>
 
-      </div>
       <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
 
     </div>

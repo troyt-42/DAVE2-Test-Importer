@@ -36,24 +36,20 @@ app.get('/getfile/:filename', function(req, res){
   fs.readFile(req.param('filename'),{encoding: 'utf8'},function (err, data) {
     if (err) {
       console.log("Error Reading File");
-      res.writeHead(404,
-        {
-          'Content-Type': 'text/plain'
+      res.writeHead(404,{'Content-Type': 'text/plain'});
+      res.end();
+    } else {
+      var dataItem = JSON.parse(data);
+      if(dataItem.data){
+        dataItem.data.sort(function compare(a, b){
+          if (Date.parse(a.Date) < Date.parse(b.Date)){
+            return -1;
+          } else if (Date.parse(a.Date) > Date.parse(b.Date)){
+            return 1;
+          } else {
+            return 0;
+          }
         });
-        res.end();
-      } else {
-        var dataItem = JSON.parse(data);
-        if(dataItem.data){
-          dataItem.data.sort(function compare(a, b){
-            if (Date.parse(a.Date) < Date.parse(b.Date)){
-              return -1;
-            } else if (Date.parse(a.Date) > Date.parse(b.Date)){
-              return 1;
-            } else {
-              return 0;
-            }
-          });
-        }
 
         var itemData = [];
 
@@ -69,275 +65,289 @@ app.get('/getfile/:filename', function(req, res){
         });
 
         dataItem.itemData = itemData;
-        
-        res.write(JSON.stringify(dataItem));
-        res.end();
+
+        var dataMirror = [];
+
+        for (key in dataItem.data){
+          var dateInMms = Date.parse(dataItem.data[key].Date);
+          var itemValue = dataItem.data[key].Value;
+
+          dataMirror.push([dateInMms, itemValue]);
+        }
+        console.log(dataMirror);
+        dataItem.dataMirror = dataMirror;
+
+
       }
-    });
+
+      res.write(JSON.stringify(dataItem));
+      res.end();
+    }
+  });
+});
+
+app.post("/username", bodyparser.json(), function(req, res){
+  userName = req.body.username;
+  userZnode = '/upload/' + userName;
+  console.log(userName);
+  console.log(userZnode);
+  res.writeHead(200);
+  res.end();
+});
+
+app.post("/itemnum",bodyparser.json(), function(req,res){
+  console.log(req.body);
+  itemNum = Number(req.body.sizeofupload);
+  console.log("Total files to be uploaded: " + itemNum);
+  res.writeHead(200);
+  res.end();
+});
+
+app.post("/upload", function(req, res){
+
+  var count = 0;
+  var form = new multiparty.Form({'autoFields' : true});
+  var fileMetaData = {};
+  var file;
+  var fileName;
+  var znodeName = '';
+
+  form.on('error', function(err) {
+    console.log('Error parsing form: ' + err.stack);
   });
 
-  app.post("/username", bodyparser.json(), function(req, res){
-    userName = req.body.username;
-    userZnode = '/upload/' + userName;
-    console.log(userName);
-    console.log(userZnode);
-    res.writeHead(200);
-    res.end();
-  });
-
-  app.post("/itemnum",bodyparser.json(), function(req,res){
-    console.log(req.body);
-    itemNum = Number(req.body.sizeofupload);
-    console.log("Total files to be uploaded: " + itemNum);
-    res.writeHead(200);
-    res.end();
-  });
-
-  app.post("/upload", function(req, res){
-
-    var count = 0;
-    var form = new multiparty.Form({'autoFields' : true});
-    var fileMetaData = {};
-    var file;
-    var fileName;
-    var znodeName = '';
-
-    form.on('error', function(err) {
-      console.log('Error parsing form: ' + err.stack);
-    });
-
-    form.on('part', function(part) {
-      if ((part.filename === null) || (part.filename === undefined)){
+  form.on('part', function(part) {
+    if ((part.filename === null) || (part.filename === undefined)){
 
 
-        var data = '';
-        part.on("data", function(chunk){
+      var data = '';
+      part.on("data", function(chunk){
 
-          data += chunk;
-        });
-
-        part.on("end", function(){
-          if (part.name === 'name') {
-            znodeName += data;
-            fileMetaData.name = data;
-          }
-          data = '';
-        });
-        part.resume();
-      }
-      if ((part.filename !== null) && (part.filename !== undefined) ){
-        count++;
-        fileMetaData.filename = part.filename;
-        fileName = part.filename;
-
-        part.on('data', function(chunk){
-
-          file += chunk;
-        });
-
-        part.on('end', function(){
-          console.log('file upload success!');
-        });
-
-        part.resume();
-      }
-    });
-
-    form.on('close', function() {
-      console.log('Upload completed!');
-      var uploadedFileName = fileName.slice(0, -4) + " " + Date().toLocaleString() + fileName.slice(-4);
-      var fileURL = "10.3.86.65:8888" + "/Importer/serverSideNodejs/upload/" + userName + '/' + uploadedFileName;
-      var fileURL2 = __dirname + "/upload/" + userName + "/" + uploadedFileName;
-      fileMetaData.fileURL = fileURL;
-      fs.writeFile(fileURL2, file, function(err){
-        res.end(err);
+        data += chunk;
       });
 
-      jsonMetaData = JSON.stringify(fileMetaData);
-      metaData = "[" + jsonMetaData + "]";
-      fileZnode = userZnode + '/' + znodeName;
+      part.on("end", function(){
+        if (part.name === 'name') {
+          znodeName += data;
+          fileMetaData.name = data;
+        }
+        data = '';
+      });
+      part.resume();
+    }
+    if ((part.filename !== null) && (part.filename !== undefined) ){
+      count++;
+      fileMetaData.filename = part.filename;
+      fileName = part.filename;
 
-      res.end('Received ' + count + ' files');
-      fileMetaData = [];
-    });
+      part.on('data', function(chunk){
 
-    form.parse(req);
+        file += chunk;
+      });
+
+      part.on('end', function(){
+        console.log('file upload success!');
+      });
+
+      part.resume();
+    }
   });
 
-
-  socket.on("connection", function(client){
-
-    console.log("Connected!" + client.handshake.address);
-
-    var nodes = {};
-
-    zk.connect(function (err) {
-      if (err){
-        throw err;
-      }
-      console.log ("zk session established, id=%s", zk.client_id);
+  form.on('close', function() {
+    console.log('Upload completed!');
+    var uploadedFileName = fileName.slice(0, -4) + " " + Date().toLocaleString() + fileName.slice(-4);
+    var fileURL = "10.3.86.65:8888" + "/Importer/serverSideNodejs/upload/" + userName + '/' + uploadedFileName;
+    var fileURL2 = __dirname + "/upload/" + userName + "/" + uploadedFileName;
+    fileMetaData.fileURL = fileURL;
+    fs.writeFile(fileURL2, file, function(err){
+      res.end(err);
     });
 
-    client.on("stepOne", function(){
+    jsonMetaData = JSON.stringify(fileMetaData);
+    metaData = "[" + jsonMetaData + "]";
+    fileZnode = userZnode + '/' + znodeName;
 
-      zk.a_create (fileZnode, metaData, ZooKeeper.ZOO_SEQUENCE, function (rc, error, path)  {
-        if (rc !== 0) {
-          console.log ("zk node create result: %d, error: '%s', path=%s", rc, error, path);
-        } else {
-          console.log ("created zk node %s", path);
+    res.end('Received ' + count + ' files');
+    fileMetaData = [];
+  });
 
-          zk.a_get(path, false, function ( rc, error, stat, data ){
-            var array = eval(data);
-            var file = array[0];
-            nodes[file.filename] = path;
-          });
+  form.parse(req);
+});
 
-          if (itemNum === 1){
-            zk.aw_get(path, function ( type, state, path ){
-              if (type === 3) {
-                console.log("Node %s has been changed to: ", path);
-                zk.a_get(path, false, function(rc, error, stat, data){
-                  console.log(data);
-                  var fakeData = [
-                  {filename:"VCDaveImport.csv",name:"test",fileURL:"10.3.86.65:8888/Importer/serverSideNodejs/upload/troy/VCDaveImport Thu Oct 23 2014 14:32:30 GMT-0400 (EDT).csv"},
-                  ["CH DRYER_C_SRP.FIC16107.MEAS", "CH FERMENT_4.TT14502.PNT", "CH FERMENT_4.FIC14601.MEAST","CH FERMENT_4.FIC14601.OUT"]];
-                  client.emit("stepOne", fakeData);
-                });
-              }
-            }, function ( rc, error, stat, data ){
-              if (rc !== 0) {
-                console.log ("zk node get result: %d error: '%s', stat= %s", rc, error, stat);
-              } else {
-                console.log("Watch is set on " + path);
-              }
-            });
 
-            zk.a_set(userZnode, 'Done!', -1, function ( rc, error, stat ){
-              if (rc !== 0) {
-                console.log ("zk node set result: %d error: '%s', stat= %s", rc, error, stat);
-              } else {
-                console.log("Set userZnode one : " + userZnode);
-              }
-            });
-          } else {
-            itemNum--;
-            zk.aw_get(path, function ( type, state, path ){
-              if (type === 3) {
-                console.log("Node %s has been changed to: ", path);
-                zk.a_get(path, false, function(rc, error, stat, data){
-                  console.log(data);
-                  client.emit("stepOne", fakeData);
-                });
-              }
-            }, function ( rc, error, stat, data ){
-              if (rc !== 0) {
-                console.log ("zk node get result: %d error: '%s', stat= %s", rc, error, stat);
-              } else {
-                console.log("Watch is set on " + path);
-              }
+socket.on("connection", function(client){
 
-            });
-          }
-        }
-      });
-    });
+  console.log("Connected!" + client.handshake.address);
 
-    client.on("stepTwo", function(selection){
-      console.log(selection[0]);
-      console.log(nodes);
-      if (selection.length !== 0){
+  var nodes = {};
 
-        for ( var i = 0; i < selection.length; i++){
-          var selectedFile = selection[i];
-          var selectedFileMeta = selectedFile[0];
-          var selectedFileFilename = selectedFileMeta.filename;
+  zk.connect(function (err) {
+    if (err){
+      throw err;
+    }
+    console.log ("zk session established, id=%s", zk.client_id);
+  });
 
-          var fileZnodePath = nodes[selectedFileFilename];
+  client.on("stepOne", function(){
 
-          var selectedFileString = JSON.stringify(selectedFile);
-          zk.a_set(fileZnodePath, selectedFileString, -1, function ( rc, error, stat ){
-            if (rc !== 0){
-              console.log("zk node set step two result: %d error: %s, stat = %s", rc, error, stat);
-            } else {
-              console.log("Feedback success!");
-            }
-          });
-        }
+    zk.a_create (fileZnode, metaData, ZooKeeper.ZOO_SEQUENCE, function (rc, error, path)  {
+      if (rc !== 0) {
+        console.log ("zk node create result: %d, error: '%s', path=%s", rc, error, path);
+      } else {
+        console.log ("created zk node %s", path);
 
-        zk.a_set(userZnode, "Done2!", -1, function ( rc, error, stat ){
-          if (rc !== 0){
-            console.log("zk node set userZnode two result: %d error: %s, stat = %s", rc, error, stat);
-          } else {
-            console.log("Set userZnode two " + userZnode);
-
-          }
+        zk.a_get(path, false, function ( rc, error, stat, data ){
+          var array = JSON.parse(data);
+          var file = array[0];
+          nodes[file.filename] = path;
         });
-      } else {
-        console.log("Invalid Selection!");
-      }
-    });
 
-
-
-    var kafkaClient = new kafka.Client("10.3.83.239");
-    var consumer = new kafka.Consumer(
-      kafkaClient,
-      [{ topic: 'test', partition: 0 }],
-      {
-        autoCommit: false
-      }
-    );
-
-    consumer.on("message",function(message){
-      console.log(message);
-    });
-
-
-
-    client.on("disconnect", function(){
-      console.log(client.handshake.address + " Disconnected!");
-      if ((userZnode === '') || (userName === '')){
-        console.log("userZnode is null!");
-      } else {
-        zk.a_get_children(userZnode, false, function(rc, error, children){
-          if (rc !== 0) {
-            console.log("zk a_get_children result: %d, error: '%s', path = %s", rc, error, userZnode);
-          } else {
-
-            for(var i = 0; i < children.length; i++){
-              var childRoute = userZnode + "/" + children[i];
-              zk.a_delete_ ( childRoute, -1, function(rc, error){
-                if (rc !== 0) {
-                  console.log("zk a_delete_ result: %d, error: '%s', path = %s", rc, error, childRoute);
-                } else {
-                  console.log("Cleared the children: " + childRoute);
-                }
+        if (itemNum === 1){
+          zk.aw_get(path, function ( type, state, path ){
+            if (type === 3) {
+              console.log("Node %s has been changed to: ", path);
+              zk.a_get(path, false, function(rc, error, stat, data){
+                console.log(data);
+                var fakeData = [
+                {filename:"VCDaveImport.csv",name:"test",fileURL:"10.3.86.65:8888/Importer/serverSideNodejs/upload/troy/VCDaveImport Thu Oct 23 2014 14:32:30 GMT-0400 (EDT).csv"},
+                ["CH DRYER_C_SRP.FIC16107.MEAS", "CH FERMENT_4.TT14502.PNT", "CH FERMENT_4.FIC14601.MEAST","CH FERMENT_4.FIC14601.OUT"]];
+                client.emit("stepOne", fakeData);
               });
             }
-            zk.a_set(userZnode, "Clear", -1, function ( rc, error, stat ){
-              if (rc !== 0 ) {
-                console.log("zk a_set result: %d, error: '$s', path = $s", rc, error, userZnode);
-              } else {
-                console.log("Clear userZnode: " + userZnode);
-              }
-            });
+          }, function ( rc, error, stat, data ){
+            if (rc !== 0) {
+              console.log ("zk node get result: %d error: '%s', stat= %s", rc, error, stat);
+            } else {
+              console.log("Watch is set on " + path);
+            }
+          });
+
+          zk.a_set(userZnode, 'Done!', -1, function ( rc, error, stat ){
+            if (rc !== 0) {
+              console.log ("zk node set result: %d error: '%s', stat= %s", rc, error, stat);
+            } else {
+              console.log("Set userZnode one : " + userZnode);
+            }
+          });
+        } else {
+          itemNum--;
+          zk.aw_get(path, function ( type, state, path ){
+            if (type === 3) {
+              console.log("Node %s has been changed to: ", path);
+              zk.a_get(path, false, function(rc, error, stat, data){
+                console.log(data);
+                client.emit("stepOne", fakeData);
+              });
+            }
+          }, function ( rc, error, stat, data ){
+            if (rc !== 0) {
+              console.log ("zk node get result: %d error: '%s', stat= %s", rc, error, stat);
+            } else {
+              console.log("Watch is set on " + path);
+            }
+
+          });
+        }
+      }
+    });
+  });
+
+  client.on("stepTwo", function(selection){
+    console.log(selection[0]);
+    console.log(nodes);
+    if (selection.length !== 0){
+
+      for ( var i = 0; i < selection.length; i++){
+        var selectedFile = selection[i];
+        var selectedFileMeta = selectedFile[0];
+        var selectedFileFilename = selectedFileMeta.filename;
+
+        var fileZnodePath = nodes[selectedFileFilename];
+
+        var selectedFileString = JSON.stringify(selectedFile);
+        zk.a_set(fileZnodePath, selectedFileString, -1, function ( rc, error, stat ){
+          if (rc !== 0){
+            console.log("zk node set step two result: %d error: %s, stat = %s", rc, error, stat);
+          } else {
+            console.log("Feedback success!");
           }
         });
       }
-    });
 
+      zk.a_set(userZnode, "Done2!", -1, function ( rc, error, stat ){
+        if (rc !== 0){
+          console.log("zk node set userZnode two result: %d error: %s, stat = %s", rc, error, stat);
+        } else {
+          console.log("Set userZnode two " + userZnode);
 
-    var messageDB = [];
-
-    client.on("messages",function(nickname,messages,color){
-      client.broadcast.emit("messages", nickname, messages,color);
-      messageDB.push(messages);
-      if (messageDB.length >= 10) {
-        messageDB.pop();
-      }
-    });
-
+        }
+      });
+    } else {
+      console.log("Invalid Selection!");
+    }
   });
 
-  server.listen(3000);
-  console.log("Express Server Is Listenning at 3000");
+
+
+  var kafkaClient = new kafka.Client("10.3.83.239");
+  var consumer = new kafka.Consumer(
+    kafkaClient,
+    [{ topic: 'test', partition: 0 }],
+    {
+      autoCommit: false
+    }
+  );
+
+  consumer.on("message",function(message){
+    console.log(message);
+  });
+
+
+
+  client.on("disconnect", function(){
+    console.log(client.handshake.address + " Disconnected!");
+    if ((userZnode === '') || (userName === '')){
+      console.log("userZnode is null!");
+    } else {
+      zk.a_get_children(userZnode, false, function(rc, error, children){
+        if (rc !== 0) {
+          console.log("zk a_get_children result: %d, error: '%s', path = %s", rc, error, userZnode);
+        } else {
+
+          for(var i = 0; i < children.length; i++){
+            var childRoute = userZnode + "/" + children[i];
+            zk.a_delete_ ( childRoute, -1, function(rc, error){
+              if (rc !== 0) {
+                console.log("zk a_delete_ result: %d, error: '%s', path = %s", rc, error, childRoute);
+              } else {
+                console.log("Cleared the children: " + childRoute);
+              }
+            });
+          }
+          zk.a_set(userZnode, "Clear", -1, function ( rc, error, stat ){
+            if (rc !== 0 ) {
+              console.log("zk a_set result: %d, error: '$s', path = $s", rc, error, userZnode);
+            } else {
+              console.log("Clear userZnode: " + userZnode);
+            }
+          });
+        }
+      });
+    }
+  });
+
+
+  var messageDB = [];
+
+  client.on("messages",function(nickname,messages,color){
+    client.broadcast.emit("messages", nickname, messages,color);
+    messageDB.push(messages);
+    if (messageDB.length >= 10) {
+      messageDB.pop();
+    }
+  });
+
+});
+
+server.listen(3000);
+console.log("Express Server Is Listenning at 3000");

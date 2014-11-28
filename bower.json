@@ -20,7 +20,8 @@
     "angular-snap": "~1.6.0",
     "angular-ui-sortable": "~0.13.1",
     "angular-dragdrop": "1.0.6",
-    "jquery" : " 1.11.1",
-    "jquery-ui" : "1.11.2"
+    "jquery": " 1.11.1",
+    "jquery-ui": "1.11.2",
+    "ngInfiniteScroll": "1.0.0"
   }
 }

@@ -1,4 +1,4 @@
-var dave2App = angular.module("dave2App", ["chatApp", "importer",'angularFileUpload', 'ngRoute','dataItemDisplay', 'PK.controllers']);
+var dave2App = angular.module("dave2App", ["chatApp", "importer",'angularFileUpload', 'ngRoute','dataItemDisplay', 'PK.controllers','infinite-scroll']);
 
 dave2App.factory('dataLib', ['$http', function($http){
 
