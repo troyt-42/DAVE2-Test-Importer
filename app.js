@@ -6,7 +6,7 @@ dave2App.factory('dataLib', ['$http', function($http){
   {
     getInitalData : function() {
 
-      var promise = $http.get('http://10.3.86.65:3000/getfile/table.json').success(function(data){
+      var promise = $http.get('http://10.3.86.65:3000/gettable').success(function(data){
         console.log('Successful Request');
         return data;
       }).error(function(){

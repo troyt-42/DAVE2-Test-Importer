@@ -1,8 +1,8 @@
 /* app css stylesheet */
 body{
   background:radial-gradient(circle, linen, white);
-  overflow-x:scroll;
-  overflow-y:hidden;
+  overflow-x:hidden;
+  overflow-y:scroll;
 }
 
 

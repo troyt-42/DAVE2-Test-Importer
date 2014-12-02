@@ -30,63 +30,124 @@
 
             <div class="glyphicon glyphicon-ok" style = "color:green;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) !== -1"></div>
             <div class="glyphicon glyphicon-remove" style = "color:red;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) === -1"></div>
-          </li>
-        </ul>
+          </div>
+        </li>
+      </ul>
 
 
 
 
-      </dave-panel>
+    </dave-panel>
 
 
 
+  </div>
+
+  <div class = 'base-class' ng-class = "mainAreaClass" >
+
+
+    <div style = "width:75%">
+      <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
+      <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
+      <button class = "btn btn-success" ng-click = 'destroyGraph();chosen = false'>Show List</button>
+
+      <button class = "btn btn-success" ng-click = 'loadMore()'>Load More</button>
+
+      <img style = "height:34px"src="imgs/5-121204193Q8.gif" ng-show = "loading">
     </div>
 
-    <div class = 'base-class' ng-class = "mainAreaClass" >
+    <hr>
 
+    <dave-table rows = 'tableRows' fields-to-show = "fieldsInfo" ng-show = "!chosen">
+    </dave-table>
+    <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
 
-      <div>
-        <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
-        <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
-        <button class = "btn btn-success" ng-click = 'destroyGraph();chosen = false'>Show List</button>
-
-        <button class = "btn btn-success" ng-click = 'loadMore()'>Load More</button>
-        <img style = "height:34px"src="imgs/5-121204193Q8.gif" ng-show = "loading">
-      </div>
-      <hr>
-      <dave-table rows = 'tableRows' fields-to-show = "fieldsInfo" ng-show = "!chosen">
-      </dave-table>
-
-      <div class = 'base-class col-md-9' id = "chartContainer"  ng-show = "chosen">
+    <div class = "col-md-9" ng-show = 'chosen'>
+      <div class = 'base-class col-md-12' id = "chartContainer"  ng-show = "chosen">
       </div>
 
-      <div class = "col-md-3 dip-table-container" id = "dataItemTable" ng-show = "chosen " >
-        <div class = 'dip-table-header-background'></div>
-
-        <div class = "dip-table-innner-container"  infinite-scroll="loadMore()" infinite-scroll-distance="1" >
-          <table class = "table dip-table" ng-show = "!noValueSelectedInTalbe" >
-            <thead class = "dip-table-header">
-              <tr>
-                <th>
-                  <div style ="border:none;">Date</div>
-                </th>
-                <th>
-                  <div>Value</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody class = 'dip-table-body'>
-              <tr ng-repeat = "row in tableDataToShow track by $index">
-                <td>{{row.Date}}</td>
-                <td style="border-right:none">{{row.Value}}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class = "col-md-4 dip-detail-widget" id = "dipDetailWidget1">
+        <div class = "well" >
+          <div id = "chartContainer2"></div>
         </div>
+      </div>
 
+      <div class = "col-md-4 dip-detail-widget" id = "dipDetailWidget2">
+        <div class = "well">
+          <div style = "float:right">
+            <h1 style = "font-weight:900">{{dataItemVolume}}</h1> fields in total
+            <h1 style = "font-weight:900">{{tableData.length}}</h1> fields in the view</div>
+          <div style = "width:65%;">
+            <h1>Statistics</h1>
+
+            <div style = "width:100%">Average Value: {{avg}}</div>
+
+            <div style = "width:100%">
+              Maxiam: {{maxValue.Value}} ({{maxValue.Date}})
+              <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(maxValue)"></div>
+            </div>
+            <div style = "width:100%">
+              Minium: {{minValue.Value}} ({{minValue.Date}})
+              <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(minValue)"></div>
+            </div>
+            <br>
+            <div class="btn-group">
+              <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                Reduction Level: {{currentReductionLevel}}
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                <li role="presentation" ng-repeat = "reduction in reductionLevel track by $index"><a ng-click = "changeReductionLevel(reduction)">{{reduction}}</a></li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div style = "clear:both"></div>
+        </div>
+      </div>
+      <div class = "col-md-4 dip-detail-widget" id = "dipDetailWidget3">
+        <div class = "well">
+          <h1>Detail</h1>
+          <ul>
+            <li ng-repeat = "field in itemDetails"><b>{{field.fieldname}}</b>: {{field.fieldvalue}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class = "col-md-3 dip-table-container" id = "dataItemTable" ng-show = "chosen" >
+      <div class = 'dip-table-header-background'></div>
+
+      <div class = "dip-table-innner-container" >
+        <table class = "table dip-table">
+          <thead class = "dip-table-header">
+            <tr>
+              <th>
+                <div style ="border:none;">Date</div>
+              </th>
+              <th>
+                <div>Value</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody class = 'dip-table-body' ng-if = "!noValueSelectedInTable">
+            <tr ng-repeat = "row in tableDataToShow track by $index">
+              <td>{{row.Date}}</td>
+              <td style="border-right:none">{{row.Value}}</td>
+            </tr>
+          </tbody>
+
+        </table>
         <h1 style = "color:red" ng-show = 'noValueSelectedInTable'>Not Avaliable</h1>
 
-      <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
+      </div>
 
     </div>
+
+
+
+
+
   </div>
+</div>

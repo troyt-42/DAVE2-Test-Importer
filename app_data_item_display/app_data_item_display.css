@@ -16,7 +16,7 @@
 }
 .dip-table-innner-container{
 
-  height:600px;
+  height:auto;
   width:100%;
   overflow-y:auto;
   overflow-x:hidden;
@@ -53,4 +53,16 @@
 
 .dip-table-body td{
   border-right: black 1px solid;
+}
+
+.dip-detail-widget{
+  padding:15px;
+}
+
+.glyphicon-screenshot{
+  float:right;
+  color:red;
+}
+.glyphicon-screenshot:hover{
+  color:#47B0D4;
 }
