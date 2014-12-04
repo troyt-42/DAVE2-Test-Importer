@@ -58,4 +58,14 @@ dave2App.controller('dave2Ctrl', ['$scope','$location', function($scope, $locati
     var currentRoute = $location.path();
     return page === currentRoute ? 'active' : '';
   };
+
+  $scope.isHome = function(){
+    if ($location.path() === '/'){
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+
 }]);

@@ -1,4 +1,4 @@
-var dataItemDisplay = angular.module('dataItemDisplay', ['ui.bootstrap', 'btford.socket-io','panelComponent', 'tableComponent', 'menuComponent','highcharts-ng','infinite-scroll']);
+var dataItemDisplay = angular.module('dataItemDisplay', ['ui.bootstrap', 'btford.socket-io','panelComponent', 'tableComponent', 'menuComponent','highcharts-ng','infinite-scroll','dip_angularui_models']);
 
 /*dataItemDisplay.factory('displaySocket',function(socketFactory){
 var socket = io.connect('http://10.3.86.65:3000/');
@@ -35,7 +35,7 @@ dataItemDisplay.filter("sortOrder", function(){
   };
 });
 
-dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scope','customizedFilter', '$window','$timeout','$anchorScroll','$location', function(initialData,$http, $scope,customizedFilter,$window,$timeout, $anchorScroll,$location){
+dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scope','customizedFilter', '$window','$timeout','$anchorScroll','$location','$modal', function(initialData,$http, $scope,customizedFilter,$window,$timeout, $anchorScroll,$location,$modal){
   $scope.completeDataSet = initialData.data;
 
   var chunk = $scope.completeDataSet.slice(0, 10);
@@ -121,7 +121,7 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
 
     angular.element("#dipDetailWidget1").attr('style', "height:" + $window.innerWidth * 0.25 + "px;" + "float:left");
     angular.element("#dipDetailWidget2").attr('style', "height:" + $window.innerWidth * 0.25 + "px;");
-    angular.element("#chartContainer2").attr('style', "height:" + $window.innerWidth * 0.20 + "px;");
+    angular.element("#chartContainer2").attr('style', "height:" + $window.innerWidth * 0.20 + "px;" + "width:50%;float:right");
     angular.element("#dipDetailWidget3").attr('style', "height:" + $window.innerWidth * 0.25 + "px;" + "float:right");
 
     $scope.avg = "Calculating...";
@@ -575,6 +575,76 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
           ]
         }]
       };
+
+      $scope.chartsConfig3 = {
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: 1,//null,
+          plotShadow: false,
+          options3d: {
+            enabled: true,
+            alpha: 15,
+            beta: 15,
+            depth: 50
+          }
+        },
+        title: {
+          text: "Distribution of Values"
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.y:.f}</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            depth: 35,
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}:</b> <br>{point.percentage:.1f} %',
+              style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
+            }
+          },
+          column : {
+            depth : 45
+          }
+        },
+        series: [{
+          type: 'column',
+          name: 'Values Distribution',
+          data: [
+          {
+            name : '0 ~ 20',
+            y : $scope.numOfValuesHigherThan0 / $scope.tableData.length,
+            x : 10,
+            color:'#55BF3B'
+          },{
+            name : '20 ~ 40',
+            y : $scope.numOfValuesHigherThan20 / $scope.tableData.length,
+            x : 30,
+            color:"#ff0066"
+          },{
+            name : '40 ~ 50',
+            y : $scope.numOfValuesHigherThan40 / $scope.tableData.length,
+            x : 45,
+            color:"#eeaaee"
+
+          },{
+            name : '50 ~ 80',
+            y : $scope.numOfValuesHigherThan50 / $scope.tableData.length,
+            x : 65,
+            color:"#DF5353"
+          },{
+            name : '80 ~ 100',
+            y : $scope.numOfValuesHigherThan80 / $scope.tableData.length,
+            x : 90,
+            color:"#7798BF"
+          }
+          ]
+        }]
+      };
       console.log($scope.numOfValuesHigherThan80);
       console.log($scope.numOfValuesHigherThan80 / $scope.tableData.length);
       Highcharts.createElement('link', {
@@ -654,7 +724,8 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
 
       $timeout(function(){
         angular.element('#chartContainer').highcharts('StockChart', $scope.chartsConfig);
-        angular.element('#chartContainer2').highcharts($scope.chartsConfig2);
+        angular.element('#chartContainer2').highcharts($scope.chartsConfig3);
+        $scope.currentGraphConfig = $scope.chartsConfig3;
         angular.element('input.highcharts-range-selector').datepicker();
 
         $.datepicker.setDefaults({
@@ -682,7 +753,7 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
 
   $scope.fieldsInfo = {
     avaliable : ['Id', 'Name','Location', 'Owner'],
-    selection : []
+    selection : ['Id', 'Name','Location', 'Owner']
   };
 
   $scope.selectField = function(field){
@@ -734,16 +805,48 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
   },true);
 
 
-  $scope.manualRecursionCall = function(functionToCall, interval){
 
-
-    $timeout(function(){
-      functionToCall();
-      $scope.manualRecursionCall(functionToCall, interval);
-    }, interval);
-
+  $scope.openDipDetailEditModel = function(){
+    $modal.open({
+      templateUrl: 'app_data_item_display/dip_angularui_models/dip_detail_edit.html',
+      controller: 'dipDetailEditCtrl',
+      resolve: {
+        detailData: function () {
+          return   angular.copy($scope.itemDetails);
+        }
+      },
+      scope : $scope
+    });
   };
 
+  $scope.$on("detailChanged", function(event, data){
+    console.log("dataChanged!");
+    $scope.itemDetails = data;
+  });
 
+
+  $scope.openDipControllGraphModel = function(){
+    $modal.open({
+      templateUrl: 'app_data_item_display/dip_angularui_models/dip_controllgraph_edit.html',
+      controller: "dipControllGraphEditCtrl",
+      resolve: {
+        currentGraphConfig : function(){
+          return angular.copy($scope.currentGraphConfig);
+        }
+      }
+    });
+  };
+
+  $scope.openDefaultMenuModel = function(){
+    $modal.open({
+      templateUrl: 'app_data_item_display/dip_angularui_models/dip_defaultmenu.html',
+      controller: "dipDefaultMenuCtrl",
+      resolve: {
+        fieldsInfo : function(){
+          return angular.copy($scope.fieldsInfo);
+        }
+      }
+    });
+  };
 
 }]);

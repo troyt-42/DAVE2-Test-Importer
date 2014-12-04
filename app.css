@@ -3,6 +3,7 @@ body{
   background:radial-gradient(circle, linen, white);
   overflow-x:hidden;
   overflow-y:scroll;
+  font-family: 'Dosis' !important;
 }
 
 

@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit Item Details</h3>
+</div>
+<div class="modal-body">
+  <ul>
+    <li class = "row" ng-repeat="detail in detailData track by $index">
+      <b>{{ detail.fieldname }} :</b>
+      <input class = "col-md-10" type= "text"  ng-model = "detail.fieldvalue"></input>
+      <div class = "col-md-2 glyphicon glyphicon-remove detail-delete" ng-click = "deleteField(detail)"></div>
+
+    </li>
+    <li class = "row">Create New Field <div class = 'glyphicon glyphicon-plus detail-create' ng-click = "createNewField()"></div></li>
+  </ul>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="editDetailDone()">OK</button>
+  <button class="btn btn-warning" ng-click="cancelEditDetail()">Cancel</button>
+</div>

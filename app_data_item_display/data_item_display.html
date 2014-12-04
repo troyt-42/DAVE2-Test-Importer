@@ -1,53 +1,11 @@
 
 <div class = "row" style ="margin:0px">
-  <div class = "col-md-3 animate-if-slide well" ng-if='expand'>
-    <dave-panel panel-heading = "Select Columns To Show" ng-show = '!chosen'>
-
-
-      <ul class = "list-group">
-        <li class = "list-group-item list-group-item-info row" ng-repeat = "field in fieldsInfo.avaliable track by $index">
-          <div class = "filename col-md-4" style = "color:black;margin-top:7px;">{{field}}</div>
-
-          <div class = "col-md-8" style="padding:0px;">
-
-            <div style = "width:46px;height:34px;padding:0px;margin-bottom:-14px;display:inline-block">
-
-              <div class="btn-group" ng-show = "fieldsInfo.selection.indexOf(field) !== -1">
-                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                  {{fieldsInfo.selection.indexOf(field) + 1}}
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                  <li role="presentation" ng-repeat = "i in fieldsInfo.selection track by $index"><a ng-click = "changeOrderTo(field, $index)">{{$index + 1}}</a></li>
-                </ul>
-              </div>
-
-            </div>
-
-
-            <button class ="btn btn-success" ng-click = "selectField(field)">Select</button>
-            <button class ="btn btn-danger" ng-click = "deleteField(field)">Delete</button>
-
-            <div class="glyphicon glyphicon-ok" style = "color:green;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) !== -1"></div>
-            <div class="glyphicon glyphicon-remove" style = "color:red;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) === -1"></div>
-          </div>
-        </li>
-      </ul>
-
-
-
-
-    </dave-panel>
-
-
-
-  </div>
 
   <div class = 'base-class' ng-class = "mainAreaClass" >
 
 
     <div style = "width:75%">
-      <button class = 'btn btn-warning' ng-click = 'expandFn()'>Expand</button>
+      <button class = 'btn btn-warning' ng-click = 'openDefaultMenuModel()'>Default</button>
       <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
       <button class = "btn btn-success" ng-click = 'destroyGraph();chosen = false'>Show List</button>
 
@@ -63,55 +21,67 @@
     <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
 
     <div class = "col-md-9" ng-show = 'chosen'>
-      <div class = 'base-class col-md-12' id = "chartContainer"  ng-show = "chosen">
-      </div>
+      <div class = 'base-class col-md-12' id = "chartContainer"  ng-show = "chosen"></div>
 
-      <div class = "col-md-4 dip-detail-widget" id = "dipDetailWidget1">
-        <div class = "well" >
-          <div id = "chartContainer2"></div>
-        </div>
-      </div>
 
-      <div class = "col-md-4 dip-detail-widget" id = "dipDetailWidget2">
-        <div class = "well">
-          <div style = "float:right">
-            <h1 style = "font-weight:900">{{dataItemVolume}}</h1> fields in total
-            <h1 style = "font-weight:900">{{tableData.length}}</h1> fields in the view</div>
-          <div style = "width:65%;">
-            <h1>Statistics</h1>
+      <div class = "col-md-8 dip-detail-widget" id = "dipDetailWidget2">
+        <div class = "well col-md-12">
+          <div class = "col-md-6">
+            <div class = "col-md-7" style = "padding:0px">
+              <h1>Statistics</h1>
 
-            <div style = "width:100%">Average Value: {{avg}}</div>
+              <div style = "width:100%">Average Value: {{avg}}</div>
 
-            <div style = "width:100%">
-              Maxiam: {{maxValue.Value}} ({{maxValue.Date}})
-              <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(maxValue)"></div>
-            </div>
-            <div style = "width:100%">
-              Minium: {{minValue.Value}} ({{minValue.Date}})
-              <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(minValue)"></div>
-            </div>
-            <br>
-            <div class="btn-group">
-              <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                Reduction Level: {{currentReductionLevel}}
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                <li role="presentation" ng-repeat = "reduction in reductionLevel track by $index"><a ng-click = "changeReductionLevel(reduction)">{{reduction}}</a></li>
-              </ul>
+              <div style = "width:100%">
+                Maxiam: {{maxValue.Value}} ({{maxValue.Date}})
+                <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(maxValue)"></div>
+              </div>
+              <div style = "width:100%">
+                Minium: {{minValue.Value}} ({{minValue.Date}})
+                <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(minValue)"></div>
+              </div>
+              <br>
+              <div class="btn-group">
+                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  Reduction Level: {{currentReductionLevel}}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                  <li role="presentation" ng-repeat = "reduction in reductionLevel track by $index"><a ng-click = "changeReductionLevel(reduction)">{{reduction}}</a></li>
+                </ul>
+              </div>
+
             </div>
 
+            <div class = "col-md-5" style = "padding:0px;text-align:center;border-right:2px #7798BF dashed;">
+              <h1 style = "font-weight:900">{{dataItemVolume}}</h1> fields in total
+              <h1 style = "font-weight:900">{{tableData.length}}</h1> fields in the view
+            </div>
+            <hr>
+
+            <div class = "col-md-12" style = "border-right:2px #7798BF dashed;margin-top:0px;border-radius:5px;padding:0">
+              <h1 style = "margin-top:5px">Graphical Controll : </h1>
+
+              <button class="btn btn-warning" style ="color:black" ng-click = "openDipControllGraphModel()">Setting</button>
+            </div>
           </div>
-
-          <div style = "clear:both"></div>
+          <div class = "col-md-6" id = "chartContainer2"></div>
         </div>
       </div>
+
       <div class = "col-md-4 dip-detail-widget" id = "dipDetailWidget3">
-        <div class = "well">
-          <h1>Detail</h1>
-          <ul>
-            <li ng-repeat = "field in itemDetails"><b>{{field.fieldname}}</b>: {{field.fieldvalue}}</li>
-          </ul>
+        <div class = "well col-md-12">
+          <div class = "col-md-12">
+            <h1 class= "col-md-8">Detail</h1>
+            <div class= "col-md-4">
+              <div class= "col-md-12 detail-edit" ng-click = "openDipDetailEditModel()">EDIT</div>
+            </div>
+          </div>
+          <div class= "col-md-12">
+            <ul >
+              <li ng-repeat = "field in itemDetails track by $index"><b>{{field.fieldname}}</b>: {{field.fieldvalue}}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

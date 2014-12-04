@@ -62,7 +62,9 @@
 
   <br>
   <hr>
-
+  <div class="jumbotron" style = "background-color" ng-if = "isHome()">
+    <h1 style = "font-family: 'Dosis'">Hello, Dave2!</h1>
+  </div>
   <div ng-view></div>
 
 
@@ -107,12 +109,16 @@
   <script src="app_chatter/app_chatter.js" type ="application/javascript"  ></script>
   <script src="app_importer/app_importer.js" type ="application/javascript"  ></script>
   <script src="app_data_item_display/data_item_display.js" type ="application/javascript"  ></script>
+  <script src ="app_data_item_display/dip_angularui_models/dip_angularui_models.js" type ="application/javascript"  ></script>
 
   <script src="PK/views.js" type ="application/javascript"  ></script>
 
   <script src="http://code.highcharts.com/stock/highstock.js"></script>
+
+  <script src="/bower_components/highcharts/highcharts-3d.js"></script>
   <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
   <script src="/bower_components/highcharts-ng/dist/highcharts-ng.js"  ></script>
+
 
   <script type='text/javascript' src='bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js'></script>
 

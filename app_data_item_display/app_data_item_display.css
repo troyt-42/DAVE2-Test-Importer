@@ -64,5 +64,52 @@
   color:red;
 }
 .glyphicon-screenshot:hover{
+
+  -webkit-transition:all cubic-bezier(.42,0,.58,1) 0.5s;
+  transition:all cubic-bezier(.42,0,.58,1) 0.5s;
+  -ms-transform: rotate(180deg); /* IE 9 */
+  -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
   color:#47B0D4;
+}
+
+
+.detail-edit{
+  margin-top:31px;
+  background-color:white;
+  border:1px black solid;
+  text-align:center;
+  border-radius:0px;
+}
+
+.detail-edit:hover{
+  border:1px white solid;
+  background-color:black;
+  color:white;
+}
+
+.detail-create{
+  display:inline;
+  margin-left:5px;
+}
+
+.detail-create:hover{
+  -webkit-transition:all cubic-bezier(.42,0,.58,1) 0.5s;
+  transition:all cubic-bezier(.42,0,.58,1) 0.5s;
+  -ms-transform: rotate(180deg); /* IE 9 */
+  -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+  color: #47B0D4
+}
+
+.detail-delete{
+  width:15px;
+  height:16px;
+  padding:0;
+  margin-left:5px;
+  margin-top:15px;
+}
+
+.detail-delete:hover{
+  color: red
 }

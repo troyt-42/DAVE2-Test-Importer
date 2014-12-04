@@ -418,6 +418,15 @@ app.get('/getIndex/:min/:max', function(req, res){
   res.end();
 });
 
+app.post('/sendChanges',bodyparser.json(), function(req, res){
+  var changes = req.body;
+  console.log(changes);
+  //send changes to backend engine
+  console.log('Successful change!!');
+  res.writeHead(200,{'Content-Type': 'text/plain'});
+  res.end();
+});
+
 
 /*app.get('/getIndexAndData/:min/:max', function(req, res){
   var min = req.param('min');
