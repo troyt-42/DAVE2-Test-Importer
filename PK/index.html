@@ -2,32 +2,32 @@
 <html lang="en" ng-app="MyApp">
 <head>
 	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MyApp">
-    <meta name="author" content="me">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="MyApp">
+	<meta name="author" content="me">
 
 	<title>MyApp</title>
 
- 	<!-- External Style Sheets -->
+	<!-- External Style Sheets -->
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<!-- Library specific Style Sheets -->
 	<link rel="stylesheet" href="lib/nestable/nestable.css" type="text/css" />
 	<!-- Application specific Style Sheets -->
-    <link rel="stylesheet" href="app/app.css" type="text/css" />
+	<link rel="stylesheet" href="app/app.css" type="text/css" />
 </head>
 
 <!--[if lt IE 9]>
-	<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
 <![endif]-->
 
 <body>
 
 	<div ng-controller="navCtrl">
 		<nav class="navbar navbar-default navbar-fixed-top">
-		<!-- Brand and toggle get grouped for better mobile display -->
+			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -37,7 +37,7 @@
 				</button>
 				<a class="navbar-brand" href="index.html"><b>My App</b></a>
 			</div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
+			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li ng-class="navClass('home')"><a href='' ng-click="loadHome()"><i class="glyphicon glyphicon-home"></i> Home</a></li>
@@ -51,106 +51,107 @@
 					<li ng-class="navClass('eight')"><a href='' ng-click="loadEight()"><i class="glyphicon glyphicon-lock"></i> Eight</a></li>
 					<li ng-class="navClass('nine')"><a href='' ng-click="loadNine()"><i class="glyphicon glyphicon-user"></i> Nine</a></li>
 					<li ng-class="navClass('ten')"><a href='' ng-click="loadTen()"><i class="glyphicon glyphicon-camera"></i> Ten</a></li>
-	    		</ul>
-	    		
-				        <div class="nav navbar-form pull-right">
-            <div ng-show="!authService.isLoggedIn()">
-                <a href="#loginModal" role="button" class="btn btn-primary" data-toggle="modal">
-                    <i class="glyphicon glyphicon-user glyphicon-white"></i> Sign in</a>
-            </div>
-            <div ng-show="authService.isLoggedIn()">
-                <a class="btn btn-primary" ng-click="authService.logout()">
-                    <i class="glyphicon glyphicon-off glyphicon-white"></i> Sign out</a>
-            </div>
-        </div>
+				</ul>
 
-        <div ng-show="authService.isLoggedIn()">
-            <ul class="nav navbar-nav pull-right">
+				<div class="nav navbar-form pull-right">
+					<div ng-show="!authService.isLoggedIn()">
+						<a href="#loginModal" role="button" class="btn btn-primary" data-toggle="modal">
+							<i class="glyphicon glyphicon-user glyphicon-white"></i> Sign in</a>
+						</div>
+						<div ng-show="authService.isLoggedIn()">
+							<a class="btn btn-primary" ng-click="authService.logout()">
+								<i class="glyphicon glyphicon-off glyphicon-white"></i> Sign out</a>
+							</div>
+						</div>
 
-                <li ng-show="authService.isLoggedIn()" class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="glyphicon glyphicon-user glyphicon-white"></i>
+						<div ng-show="authService.isLoggedIn()">
+							<ul class="nav navbar-nav pull-right">
 
-                        <b class="caret"></b>
-                    </a>
+								<li ng-show="authService.isLoggedIn()" class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+										<i class="glyphicon glyphicon-user glyphicon-white"></i>
 
-                    <ul class="dropdown-menu">
-                        <li><a href="#/">User Profile</a></li>
-                        <li><a href="#/">Change password</a></li>
-                    </ul>
-                </li>
+										<b class="caret"></b>
+									</a>
 
-            </ul>
+									<ul class="dropdown-menu">
+										<li><a href="#/">User Profile</a></li>
+										<li><a href="#/">Change password</a></li>
+									</ul>
+								</li>
 
-        </div>
+							</ul>
 
-			</div><!-- /.navbar-collapse -->
+						</div>
+
+					</div><!-- /.navbar-collapse -->
+				</nav>
+			</div>
+
+			<div class="modal" id="loginModal" fade-in>
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title">Login</h4>
+						</div>
+						<div class="modal-body">
+							<span id="login-email">Email</span>
+							<input ng-model="loginInput" type="text" placeholder="Email" name='username'>
+							<span id="login-password">Password</span>
+							<a href="#">Forgot password?</a>
+							<input ng-model="passwordInput" type="password" placeholder="Password" name='password'>
+						</div>
+						<div class="modal-footer">
+							<a class="btn btn-primary" data-dismiss="modal" ng-click="authService.login(loginInput, passwordInput)">
+								<i class="glyphicon glyphicon-user glyphicon-white"></i>
+								Log in
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div ng-view></div>
+
+			<!-- Scripts to preload with site go here-->
+			<!-- jquery-->
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+			<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+			<!-- bootstrap-->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+			<!-- angular-->
+			<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+			<!-- angular standard libraries-->
+			<script src="lib/angular/angular-route.min.js" type="text/javascript" charset="utf-8"></script>
+			<!-- angular custom libraries used on every page-->
+			<script src="lib/snapjs/angular-snap.js" type="text/javascript" charset="utf-8"></script>
+			<script src="lib/snapjs/snap.js" type="text/javascript" charset="utf-8"></script>
+
+			<!-- Angular config scripts-->
+			<script src="app/app.js" type="text/javascript" charset="utf-8"></script>
+			<script src="app/directives/notificationManager.js"></script>
+
+			<!-- application controllers-->
+			<script src="app/controllers/controllers.js" type="text/javascript" charset="utf-8"></script>
+			<script src="app/controllers/navigation.js" type="text/javascript" charset="utf-8"></script>
+			<script src="app/controllers/views.js" type="text/javascript" charset="utf-8"></script> <!-- want to drop this and load view contollers dynamically via routes-->
+			<script src="app/directives/directives.js" type="text/javascript" charset="utf-8"></script>
+			<script src="app/services/services.js" type="text/javascript" charset="utf-8"></script>
+
+			<!-- These should probably me moved to the views the are needed on-->
+			<!-- angular custom libraries-->
+			<script src="lib/dragdrop/angular-dragdrop.js" type="text/javascript" charset="utf-8"></script>
+			<script src="lib/sortable/angular-sortable.js" type="text/javascript" charset="utf-8"></script>
+			<script src="lib/nestable/nestable.js" type="text/javascript" charset="utf-8"></script>
+
 		</nav>
 	</div>
-
-<div class="modal" id="loginModal" fade-in>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Login</h4>
-            </div>
-            <div class="modal-body">
-                <span id="login-email">Email</span>
-                <input ng-model="loginInput" type="text" placeholder="Email" name='username'>
-                <span id="login-password">Password</span>
-                <a href="#">Forgot password?</a>
-                <input ng-model="passwordInput" type="password" placeholder="Password" name='password'>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-primary" data-dismiss="modal" ng-click="authService.login(loginInput, passwordInput)">
-                    <i
-                            class="glyphicon glyphicon-user glyphicon-white"></i>Log in</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div ng-view></div>
-
-<!-- Scripts to preload with site go here-->
-	<!-- jquery-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-	<!-- bootstrap-->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<!-- angular-->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
-	<!-- angular standard libraries-->
-	<script src="lib/angular/angular-route.min.js" type="text/javascript" charset="utf-8"></script>
-	<!-- angular custom libraries used on every page-->
-	<script src="lib/snapjs/angular-snap.js" type="text/javascript" charset="utf-8"></script> 
-	<script src="lib/snapjs/snap.js" type="text/javascript" charset="utf-8"></script>
-
-	<!-- Angular config scripts-->
-	<script src="app/app.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/directives/notificationManager.js"></script>
-	
-	<!-- application controllers-->
-	<script src="app/controllers/controllers.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/controllers/navigation.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/controllers/views.js" type="text/javascript" charset="utf-8"></script> <!-- want to drop this and load view contollers dynamically via routes-->
-	<script src="app/directives/directives.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/services/services.js" type="text/javascript" charset="utf-8"></script>
- 
-	<!-- These should probably me moved to the views the are needed on-->	
-		<!-- angular custom libraries-->
-		<script src="lib/dragdrop/angular-dragdrop.js" type="text/javascript" charset="utf-8"></script>
-		<script src="lib/sortable/angular-sortable.js" type="text/javascript" charset="utf-8"></script>
-		<script src="lib/nestable/nestable.js" type="text/javascript" charset="utf-8"></script> 
-
-			<!-- ng-highcharts -->
-		    <script src="http://code.highcharts.com/highcharts.js"></script>
-		    <script src="http://code.highcharts.com/highcharts-more.js"></script>
-		    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-		    <script src="lib/angular-highcharts/highcharts-ng.js" type="text/javascript" charset="utf-8"></script>
-
 </body>
+
+
+
+
 </html>

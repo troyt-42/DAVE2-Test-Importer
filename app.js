@@ -1,4 +1,4 @@
-var dave2App = angular.module("dave2App", ["chatApp", "importer",'angularFileUpload', 'ngRoute','dataItemDisplay', 'PK.controllers','infinite-scroll']);
+var dave2App = angular.module("dave2App", ["chatApp", "importer",'angularFileUpload', 'ngRoute','dataItemDisplay', 'PK.controllers','infinite-scroll','historyTracer']);
 
 dave2App.factory('dataLib', ['$http', function($http){
 
@@ -36,8 +36,10 @@ dave2App.config(["$routeProvider", function($routeProvider){
   }).when('/Chatter', {
     templateUrl : 'app_chatter/app_chatter.html',
     controller : 'chatController'
-  })
-  .when('/Three', {
+  }).when('/HistoryTracer', {
+    templateUrl : 'app_history_tracer/app_history_tracer.html',
+    controller: 'historyTracerCtrl'
+  }).when('/Three', {
     templateUrl : 'PK/two.htm',
     controller : 'twoCtrl'
   }).when('/Four',{

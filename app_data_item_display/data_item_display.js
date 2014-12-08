@@ -1,4 +1,4 @@
-var dataItemDisplay = angular.module('dataItemDisplay', ['ui.bootstrap', 'btford.socket-io','panelComponent', 'tableComponent', 'menuComponent','highcharts-ng','infinite-scroll','dip_angularui_models']);
+var dataItemDisplay = angular.module('dataItemDisplay', ['ui.bootstrap', 'btford.socket-io','panelComponent', 'tableComponent', 'menuComponent','infinite-scroll','dip_angularui_models']);
 
 /*dataItemDisplay.factory('displaySocket',function(socketFactory){
 var socket = io.connect('http://10.3.86.65:3000/');
@@ -295,7 +295,7 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
           style: {
             fontFamily: "Dosis, sans-serif"
           },
-          type: 'area',
+          type: 'areaspline',
           zoomType: 'x',
           width: null
         },
@@ -577,28 +577,23 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
       };
 
       $scope.chartsConfig3 = {
+
         chart: {
           plotBackgroundColor: null,
           plotBorderWidth: 1,//null,
           plotShadow: false,
-          options3d: {
-            enabled: true,
-            alpha: 15,
-            beta: 15,
-            depth: 50
-          }
+
         },
         title: {
           text: "Distribution of Values"
         },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.y:.f}</b>'
+          pointFormat: '{series.name}: <b>{point.y:.2f}</b>'
         },
         plotOptions: {
           pie: {
             allowPointSelect: true,
             cursor: 'pointer',
-            depth: 35,
             dataLabels: {
               enabled: true,
               format: '<b>{point.name}:</b> <br>{point.percentage:.1f} %',
@@ -608,7 +603,92 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
             }
           },
           column : {
-            depth : 45
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}:</b> <br>{point.y:.4f} ',
+              style: {
+
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
+            },
+
+            colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+            "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+            colorByPoint: true,
+            options3d: {
+              enabled: true,
+              alpha: 15,
+              beta: 15,
+              depth: 50
+            }
+          },
+          area : {
+            marker: {
+              fillColor: '#FFFFFF',
+              lineWidth: 2,
+              lineColor: null // inherit from series
+            },
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}:</b> <br>{point.y:.4f} ',
+              style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
+            },
+            colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+            "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+            color: '#7cb5ec'
+          },
+          areaspline : {
+            marker: {
+              fillColor: '#FFFFFF',
+              lineWidth: 2,
+              lineColor: null // inherit from series
+            },
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}:</b> <br>{point.y:.4f} ',
+              style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
+            },
+            colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+            "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+            color: '#7cb5ec'
+          },
+          line : {
+            marker: {
+              fillColor: '#FFFFFF',
+              lineWidth: 2,
+              lineColor: null // inherit from series
+            },
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}:</b> <br>{point.y:.4f} ',
+              style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
+            },
+            colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+            "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+            color: '#7cb5ec'
+          },
+          spline: {
+            marker: {
+              fillColor: '#FFFFFF',
+              lineWidth: 2,
+              lineColor: null // inherit from series
+            },
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}:</b> <br>{point.y:.4f} ',
+              style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
+            },
+            colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+            "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+            color: '#7cb5ec'
           }
         },
         series: [{
@@ -618,35 +698,28 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
           {
             name : '0 ~ 20',
             y : $scope.numOfValuesHigherThan0 / $scope.tableData.length,
-            x : 10,
-            color:'#55BF3B'
+            x : 10
           },{
             name : '20 ~ 40',
             y : $scope.numOfValuesHigherThan20 / $scope.tableData.length,
-            x : 30,
-            color:"#ff0066"
+            x : 30
           },{
             name : '40 ~ 50',
             y : $scope.numOfValuesHigherThan40 / $scope.tableData.length,
-            x : 45,
-            color:"#eeaaee"
+            x : 45
 
           },{
             name : '50 ~ 80',
             y : $scope.numOfValuesHigherThan50 / $scope.tableData.length,
-            x : 65,
-            color:"#DF5353"
+            x : 65
           },{
             name : '80 ~ 100',
             y : $scope.numOfValuesHigherThan80 / $scope.tableData.length,
-            x : 90,
-            color:"#7798BF"
+            x : 90
           }
           ]
         }]
       };
-      console.log($scope.numOfValuesHigherThan80);
-      console.log($scope.numOfValuesHigherThan80 / $scope.tableData.length);
       Highcharts.createElement('link', {
         href: 'http://fonts.googleapis.com/css?family=Dosis:400,600',
         rel: 'stylesheet',
@@ -723,9 +796,10 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
       //angular.element('#chartContainer').highcharts('StockChart', $scope.chartsConfig);
 
       $timeout(function(){
+
+        $scope.currentGraphConfig = angular.copy($scope.chartsConfig3);
         angular.element('#chartContainer').highcharts('StockChart', $scope.chartsConfig);
         angular.element('#chartContainer2').highcharts($scope.chartsConfig3);
-        $scope.currentGraphConfig = $scope.chartsConfig3;
         angular.element('input.highcharts-range-selector').datepicker();
 
         $.datepicker.setDefaults({
@@ -756,36 +830,7 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
     selection : ['Id', 'Name','Location', 'Owner']
   };
 
-  $scope.selectField = function(field){
-    if (($scope.fieldsInfo.avaliable.indexOf(field) !== -1) && ($scope.fieldsInfo.selection.indexOf(field) === -1)){
-      $scope.fieldsInfo.selection.push(field);
-      console.log($scope.fieldsInfo.selection);
-    } else if ($scope.fieldsInfo.avaliable.indexOf(field) !== -1) {
-      console.log('Not avaliable!');
-    } else {
-      console.log('Already existing');
-    }
-  };
 
-  $scope.deleteField = function(field){
-    if (($scope.fieldsInfo.avaliable.indexOf(field) !== -1) && ($scope.fieldsInfo.selection.indexOf(field) !== -1)){
-      var index  = $scope.fieldsInfo.selection.indexOf(field);
-      $scope.fieldsInfo.selection.splice(index, 1);
-    } else if ($scope.fieldsInfo.avaliable.indexOf(field) !== -1) {
-      console.log('Not avaliable!');
-    } else {
-      console.log('Doesnt existing');
-    }
-  };
-
-  $scope.changeOrderTo = function(field, index){
-    if (($scope.fieldsInfo.selection[index] !== field) && ($scope.fieldsInfo.selection.indexOf(field) !== -1)){
-      var orig = $scope.fieldsInfo.selection.indexOf(field);
-      var otherField = $scope.fieldsInfo.selection[index];
-      $scope.fieldsInfo.selection.splice(orig, 1, otherField);
-      $scope.fieldsInfo.selection.splice(index, 1, field);
-    }
-  };
 
   $scope.$watch(function(){
     return $scope.fieldsInfo.selection;
@@ -820,7 +865,7 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
   };
 
   $scope.$on("detailChanged", function(event, data){
-    console.log("dataChanged!");
+    console.log(event.name);
     $scope.itemDetails = data;
   });
 
@@ -833,9 +878,16 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
         currentGraphConfig : function(){
           return angular.copy($scope.currentGraphConfig);
         }
-      }
+      },
+      size : 'lg',
+      scope:$scope
     });
   };
+
+  $scope.$on("controllGraphChanged",function(event,data){
+    console.log(event.name);
+    $("#chartContainer2").highcharts().series[0].update(data);
+  });
 
   $scope.openDefaultMenuModel = function(){
     $modal.open({
@@ -845,8 +897,18 @@ dataItemDisplay.controller('dataItemDisplayCtrl', ['initialData','$http', '$scop
         fieldsInfo : function(){
           return angular.copy($scope.fieldsInfo);
         }
-      }
+      },
+      scope: $scope
     });
   };
 
+  $scope.$on('defaultFieldsChanged', function(event,data){
+    console.log(event.name);
+    $scope.fieldsInfo = data;
+  });
+
+
+  $scope.$on('inputChanged', function(event, key, keyValue){
+    $scope.applyFilter(key, keyValue); //apply filters to the list
+  });
 }]);

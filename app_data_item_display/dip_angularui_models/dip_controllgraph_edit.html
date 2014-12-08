@@ -1,18 +1,39 @@
 <div class="modal-header">
-  <h3 class="modal-title">Edit Item Details</h3>
+  <h3 class="modal-title">Edit Controll Graph:</h3>
 </div>
-<div class="modal-body">
-  <ul>
-    <li class = "row" ng-repeat="detail in detailData track by $index">
-      <b>{{ detail.fieldname }} :</b>
-      <input class = "col-md-10" type= "text"  ng-model = "detail.fieldvalue"></input>
-      <div class = "col-md-2 glyphicon glyphicon-remove detail-delete" ng-click = "deleteField(detail)"></div>
 
-    </li>
-    <li class = "row">Create New Field <div class = 'glyphicon glyphicon-plus detail-create' ng-click = "createNewField()"></div></li>
-  </ul>
+<div class="row " style = "width:100%;margin:0">
+  <div class = "col-md-4">
+
+    <label class="checkbox" ng-init ="oneAtATime = true">
+      <input type="checkbox" ng-model="oneAtATime">
+      Open only one at a time
+    </label>
+    <accordion close-others="oneAtATime">
+      <accordion-group ng-repeat="option in avaliableOptions" >
+        <accordion-heading>
+          {{option[0]}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </accordion-heading>
+        <ul class="list-group">
+          <li class="list-group-item dip-controlgraph-option" ng-repeat = "option2 in option[1]" ng-click = "applyChange(option[0], option2)">{{option2}}</li>
+        </ul>
+      </accordion-group>
+
+
+    </accordion>
+  </div>
+  <div class = "col-md-8" id = "dipModalChartContainer">
+
+
+  </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="editDetailDone()">OK</button>
-  <button class="btn btn-warning" ng-click="cancelEditDetail()">Cancel</button>
+  <button class="btn btn-primary" ng-click="editControllGraphDone()">OK</button>
+  <button class="btn btn-warning" ng-click="cancelControllGraphEdit()">Cancel</button>
 </div>
+<!--
+<div id="dipModalChartContainer" style="height: 400px">
+</div>
+
+<button id="column" ng-click = "applyChange('Type', 'column')">Column</button>
+<button id="pie"  ng-click = "applyChange('Type', 'pie')">Pie</button>-->

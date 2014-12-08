@@ -3,47 +3,50 @@
 </div>
 <div class="modal-body">
 
-    <dave-panel panel-heading = "Select Columns To Show">
+  <dave-panel panel-heading = "Select Columns To Show">
 
 
-      <ul class = "list-group col-md-12" >
-        <li class = "list-group-item list-group-item-info row" style = "margin:0;padding:0" ng-repeat = "field in fieldsInfo.avaliable track by $index">
-          <div class = "filename col-md-4" style = "color:black;margin-top:7px;">{{field}}</div>
+    <ul class = "list-group col-md-12" style = "margin:0;padding:0"  >
+      <li class = "list-group-item list-group-item-info row" style = "margin:0;padding:0;width:100%" ng-repeat = "field in fieldsInfo.avaliable track by $index">
+        <div class = "filename col-md-4" style = "color:black;margin-top:10px;line-height:100%;padding-top:7px">{{field}}:</div>
 
-          <div class = "col-md-8" style="padding:0px;">
-
-            <div class= "col-md-2" style = "height:30px;padding:0px;display:inline-block">
-
-              <div class="btn-group" ng-show = "fieldsInfo.selection.indexOf(field) !== -1">
-                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                  {{fieldsInfo.selection.indexOf(field) + 1}}
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                  <li role="presentation" ng-repeat = "i in fieldsInfo.selection track by $index"><a ng-click = "changeOrderTo(field, $index)">{{$index + 1}}</a></li>
-                </ul>
-              </div>
-
-            </div>
+        <div class = "col-md-8" style="padding:0px;margin:0">
 
 
-            <button class ="col-md-3 btn btn-success" ng-click = "selectField(field)">Select</button>
-            <button class ="col-md-3 btn btn-danger" ng-click = "deleteField(field)">Delete</button>
-
-            <div class="col-md-1 glyphicon glyphicon-ok" style = "color:green;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) !== -1"></div>
-            <div class="col-md-1 glyphicon glyphicon-remove" style = "color:red;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) === -1"></div>
+          <div class="btn-group col-md-3" style = "padding:0px" ng-show = "fieldsInfo.selection.indexOf(field) !== -1">
+            <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" style = "margin-top:0">
+              {{fieldsInfo.selection.indexOf(field) + 1}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+              <li role="presentation" ng-repeat = "i in fieldsInfo.selection track by $index"><a ng-click = "changeOrderTo(field, $index)">{{$index + 1}}</a></li>
+            </ul>
           </div>
-        </li>
-      </ul>
+
+
+          <div class = "col-md-3 " style="padding:0px;margin:0">
+            <button class ="btn btn-success" ng-click = "selectField(field)">Select</button>
+          </div>
+
+          <div class = "col-md-3 " style="padding:0px;margin:0">
+            <button class ="btn btn-danger" ng-click = "deleteField(field)">Delete</button>
+          </div>
+
+          <div class="col-md-1 glyphicon glyphicon-ok" style = "color:green;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) !== -1"></div>
+          <div class="col-md-1 glyphicon glyphicon-remove" style = "color:red;padding:9px;" ng-show = "fieldsInfo.selection.indexOf(field) === -1"></div>
+
+        </div>
+      </li>
+    </ul>
 
 
 
 
-    </dave-panel>
+  </dave-panel>
 
 
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="editDetailDone()">OK</button>
-  <button class="btn btn-warning" ng-click="cancelEditDetail()">Cancel</button>
+  <button class="btn btn-primary" ng-click="editDefaultDone()">OK</button>
+  <button class="btn btn-warning" ng-click="cancelEditDefault()">Cancel</button>
 </div>

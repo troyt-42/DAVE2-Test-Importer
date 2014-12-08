@@ -113,3 +113,8 @@
 .detail-delete:hover{
   color: red
 }
+
+.dip-controlgraph-option:hover{
+  color:white;
+  background-color:#2563AB;
+}

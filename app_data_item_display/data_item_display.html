@@ -6,7 +6,6 @@
 
     <div style = "width:75%">
       <button class = 'btn btn-warning' ng-click = 'openDefaultMenuModel()'>Default</button>
-      <button class = "btn btn-info" ng-click = "chosen = true">Show Graph</button>
       <button class = "btn btn-success" ng-click = 'destroyGraph();chosen = false'>Show List</button>
 
       <button class = "btn btn-success" ng-click = 'loadMore()'>Load More</button>
@@ -18,6 +17,7 @@
 
     <dave-table rows = 'tableRows' fields-to-show = "fieldsInfo" ng-show = "!chosen">
     </dave-table>
+
     <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' ng-show = "!chosen" style = 'margin-left:30%'></pagination>
 
     <div class = "col-md-9" ng-show = 'chosen'>

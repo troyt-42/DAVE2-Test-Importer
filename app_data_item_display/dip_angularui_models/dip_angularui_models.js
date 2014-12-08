@@ -82,13 +82,115 @@ uiModels.controller('dipDetailCreateCtrl', ['$scope','detailData','$http','$moda
   };
 }]);
 
-uiModels.controller("dipControllGraphEditCtrl", ['$scope','currentGraphConfig','$http','$modalInstance', '$modal',
- function($scope,currentGraphConfig, $http,$modalInstance){
+uiModels.controller("dipControllGraphEditCtrl", ['$scope','currentGraphConfig','$http','$modalInstance', '$modal','$timeout',
+function($scope,currentGraphConfig, $http,$modalInstance,$modal,$timeout){
+  var chartConfig = currentGraphConfig;
 
- }]);
+  var chartChanges = {};
 
- uiModels.controller("dipDefaultMenuCtrl", ['$scope','fieldsInfo','$http','$modalInstance', '$modal',
- function($scope,fieldsInfo, $http,$modalInstance){
-   $scope.fieldsInfo = fieldsInfo;
 
- }]);
+  $timeout(function(){
+    $('#dipModalChartContainer').highcharts(chartConfig);
+  }, 400);
+
+  $scope.avaliableOptions = [
+  ['Type', ['Pie', 'Column', 'Area','AreaSpline', 'Line','Spline']],
+  ['Color' , ['Red', 'Black', 'Green']],
+  ['Data' , []],
+  ['Logic' , []]
+  ];
+
+  $scope.applyChange = function(category, option){
+    if(category === 'Type'){
+      var newConfig = {
+        type: option.toLowerCase()
+      };
+
+      chartChanges.type = option.toLowerCase();
+      console.log(newConfig);
+
+      $('#dipModalChartContainer').highcharts().series[0].update(newConfig);
+
+    } else if (category === 'Color'){
+      var newConfig2 = {
+        color : option.toLowerCase()
+      };
+
+      chartChanges.color = option.toLowerCase();
+      $('#dipModalChartContainer').highcharts().series[0].update(newConfig2);
+    }
+  };
+
+  $scope.editControllGraphDone = function(){
+    $scope.$emit("controllGraphChanged", chartChanges);
+    $modalInstance.close();
+
+  };
+
+  $scope.cancelControllGraphEdit = function(){
+    $modalInstance.dismiss('cancel');
+  };
+
+  
+
+}]);
+
+uiModels.controller("dipDefaultMenuCtrl", ['$scope','fieldsInfo','$http','$modalInstance', '$modal',
+function($scope,fieldsInfo, $http,$modalInstance){
+  $scope.fieldsInfo = fieldsInfo;
+
+  $scope.selectField = function(field){
+    if (($scope.fieldsInfo.avaliable.indexOf(field) !== -1) && ($scope.fieldsInfo.selection.indexOf(field) === -1)){
+      $scope.fieldsInfo.selection.push(field);
+      console.log($scope.fieldsInfo.selection);
+    } else if ($scope.fieldsInfo.avaliable.indexOf(field) !== -1) {
+      console.log('Not avaliable!');
+    } else {
+      console.log('Already existing');
+    }
+  };
+
+  $scope.deleteField = function(field){
+    if (($scope.fieldsInfo.avaliable.indexOf(field) !== -1) && ($scope.fieldsInfo.selection.indexOf(field) !== -1)){
+      var index  = $scope.fieldsInfo.selection.indexOf(field);
+      console.log(index);
+      $scope.fieldsInfo.selection.splice(index, 1);
+      console.log($scope.fieldsInfo);
+    } else if ($scope.fieldsInfo.avaliable.indexOf(field) !== -1) {
+      console.log('Not avaliable!');
+    } else {
+      console.log('Doesnt existing');
+    }
+  };
+
+  $scope.changeOrderTo = function(field, index){
+    if (($scope.fieldsInfo.selection[index] !== field) && ($scope.fieldsInfo.selection.indexOf(field) !== -1)){
+      var orig = $scope.fieldsInfo.selection.indexOf(field);
+      var otherField = $scope.fieldsInfo.selection[index];
+      $scope.fieldsInfo.selection.splice(orig, 1, otherField);
+      $scope.fieldsInfo.selection.splice(index, 1, field);
+    }
+  };
+
+  $scope.fomatter = function(){
+    return {'defaultFields' : $scope.fieldsInfo};
+  };
+
+  $scope.editDefaultDone = function(){
+    var sendChanges = $http.post('/sendChanges', $scope.fomatter())
+    .success(function(data){
+      console.log("Successful Change!");
+      $scope.$emit('defaultFieldsChanged', $scope.fieldsInfo);
+    }).error(function(err){
+      alert("Change Failed!");
+      console.log(err);
+    });
+
+    $modalInstance.close(sendChanges);
+  };
+
+  $scope.cancelEditDefault = function(){
+    $modalInstance.dismiss('cancel');
+  };
+
+}]);
