@@ -1,6 +1,6 @@
 var historyTracer = angular.module("historyTracer", []);
 
-historyTracer.controller("historyTracerCtrl", ['$scope', function($scope){
+historyTracer.controller("historyTracerCtrl", ['$scope','$http', function($scope,$http){
   $scope.currentNumOptions = [1,2,3,4,5,6,7,8,9];
   $scope.currentLetterOptions = ['A','B','C','D','E','F','G','H','I'];
   $scope.currentOptions = $scope.currentNumOptions;
@@ -8,6 +8,7 @@ historyTracer.controller("historyTracerCtrl", ['$scope', function($scope){
 
   $scope.currentValue ='';
   $scope.currentPosition = -1;
+  $scope.associateData = '';
   $scope.historyTracer = function(type, id, detail){
     var record = {
       type : type,
@@ -40,14 +41,29 @@ historyTracer.controller("historyTracerCtrl", ['$scope', function($scope){
 
   $scope.setCurrentValue = function(value){
     $scope.currentValue = value;
-    
+
     if ((value.toString().charCodeAt(0) >= 48) && (value.toString().charCodeAt(0) <= 57 )){
 
       $scope.currentOptions = $scope.currentLetterOptions;
 
+      $http.get('http://10.3.86.65:3000/getfile/DA-60-CF-2A-24-CF/4D').success(function(data){
+        $scope.associateData = data;
+      })
+      .error(function(err){
+        console.log(err);
+      });
+
     } else if ((value.toString().charCodeAt(0) >= 65) && (value.toString().charCodeAt(0) <= 73)){
 
       $scope.currentOptions = $scope.currentNumOptions;
+
+      $http.get('http://10.3.86.65:3000/getfile/DA-60-CF-2A-24-CF/2D').success(function(data){
+        $scope.associateData = data;
+      })
+      .error(function(err){
+        console.log(err);
+      });
+      
     } else {
       console.log(value.toString().charCodeAt(0));
     }

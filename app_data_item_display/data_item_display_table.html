@@ -1,0 +1,15 @@
+<div class = "row" style ="margin:0px">
+
+  <div style = "width:75%">
+    <button class = 'btn btn-warning' ng-click = 'openDefaultMenuModel()'>Default</button>
+
+
+  </div>
+
+  <hr>
+
+  <dave-table rows = 'tableRows' fields-to-show = "fieldsInfo" href-prefix = "'/dataItemDisplay'">
+  </dave-table>
+
+  <pagination total-items="totalItems" boundary-links="true" ng-model="currentPage" rotate = 'false' style = 'margin-left:30%'></pagination>
+</div>

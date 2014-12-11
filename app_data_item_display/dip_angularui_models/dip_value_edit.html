@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit Value</h3>
+</div>
+<div class="modal-body" style = "width:90%">
+  <ul style = "width:100%">
+    <li>
+      <div class = "row">
+        <b class = "col-md-3" style = "padding-top:3px">{{ value.Date }} :</b>
+        <input class = "col-md-7" type= "number"  ng-model = "value.Value"></input>
+        <div class = "col-md-2 glyphicon glyphicon-remove detail-delete" ng-click = "deleteDataField(value)"></div>
+      </div>
+    </li>
+  </ul>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="editValueDone()">OK</button>
+  <button class="btn btn-warning" ng-click="cancelEditValue()">Cancel</button>
+</div>

@@ -20,12 +20,14 @@ tableComponent.directive('daveTable', function(){
       templateUrl : "component_table/component_table.html",
       scope : {
         rows : '=',
-        fieldsToShow : '='
+        fieldsToShow : '=',
+        hrefPrefix : '='
       },
       controller : function($scope){
         $scope.headerValues ={};
 
         $scope.choseThisItem = function(item){
+          console.log(item);
           $scope.$emit('choseThisItem', item);
         };
 

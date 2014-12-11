@@ -1,0 +1,123 @@
+
+<div class = "row" style ="margin:0px">
+
+  <div>
+
+
+    <div style = "width:75%">
+      <button class = 'btn btn-warning' ng-click = 'openDefaultGraphMenuModel()'>Default</button>
+      <button class = "btn btn-success" ng-click = 'showList()'>Show List</button>
+
+      <button class = "btn btn-success" ng-click = 'loadMore()'>Load More</button>
+
+      <img style = "height:34px"src="imgs/5-121204193Q8.gif" ng-show = "loading">
+    </div>
+
+    <hr>
+
+
+
+
+    <div class = "col-md-9">
+      <div class = 'col-md-12' id = "chartContainer" ></div>
+
+
+      <div class = "col-md-8 dip-detail-widget" id = "dipDetailWidget2">
+        <div class = "well col-md-12">
+          <div class = "col-md-6">
+            <div class = "col-md-7" style = "padding:0px">
+              <h1>Statistics</h1>
+
+              <div style = "width:100%">Average Value: {{avg}}</div>
+
+              <div style = "width:100%">
+                Maxiam: {{maxValue.Value}} ({{maxValue.Date}})
+                <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(maxValue)"></div>
+              </div>
+              <div style = "width:100%">
+                Minium: {{minValue.Value}} ({{minValue.Date}})
+                <div class = "glyphicon glyphicon-screenshot" ng-click = "locateToSepecificDate(minValue)"></div>
+              </div>
+              <br>
+              <div class="btn-group">
+                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  Reduction Level: {{currentReductionLevel}}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                  <li role="presentation" ng-repeat = "reduction in reductionLevel track by $index"><a ng-click = "changeReductionLevel(reduction)">{{reduction}}</a></li>
+                </ul>
+              </div>
+
+            </div>
+
+            <div class = "col-md-5" style = "padding:0px;text-align:center;border-right:2px #7798BF dashed;">
+              <h1 style = "font-weight:900">{{dataItemVolume}}</h1> fields in total
+              <h1 style = "font-weight:900">{{tableData.length}}</h1> fields in the view
+            </div>
+            <hr>
+
+            <div class = "col-md-12" style = "border-right:2px #7798BF dashed;margin-top:0px;border-radius:5px;padding:0">
+              <h1 style = "margin-top:5px">Graphical Controll : </h1>
+
+              <button class="btn btn-warning" style ="color:black" ng-click = "openDipControllGraphModel()">Setting</button>
+            </div>
+          </div>
+          <div class = "col-md-6" id = "chartContainer2"></div>
+        </div>
+      </div>
+
+      <div class = "col-md-4 dip-detail-widget" id = "dipDetailWidget3">
+        <div class = "well col-md-12">
+          <div class = "col-md-12">
+            <h1 class= "col-md-8">Detail</h1>
+            <div class= "col-md-4">
+              <div class= "col-md-12 detail-edit" ng-click = "openDipDetailEditModel()">EDIT</div>
+            </div>
+          </div>
+          <div class= "col-md-12">
+            <ul >
+              <li ng-repeat = "field in itemDetails track by $index"><b>{{field.fieldname}}</b>: {{field.fieldvalue}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class = "col-md-3 dip-table-container" id = "dataItemTable">
+      <div class = 'dip-table-header-background'></div>
+
+      <div class = "dip-table-innner-container" >
+        <table class = "table dip-table well">
+          <thead class = "dip-table-header">
+            <tr>
+              <th>
+                <div style ="border:none;">Date</div>
+              </th>
+              <th>
+                <div>Value</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody class = 'dip-table-body' ng-if = "!noValueSelectedInTable">
+            <tr ng-repeat = "row in tableDataToShow track by $index">
+              <td>{{row.Date}}</td>
+              <td style="border-right:none"><div style ="position:static" class = "glyphicon glyphicon-pencil" ng-click ="openDipEditValueModal(row)"></div> <span>{{row.Value}}<span></td>
+            </tr>
+          </tbody>
+
+        </table>
+
+
+        <h1 style = "color:red" ng-show = 'noValueSelectedInTable'>Not Avaliable</h1>
+
+      </div>
+
+    </div>
+
+
+
+
+
+  </div>
+</div>

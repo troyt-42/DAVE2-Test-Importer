@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit Data Graph Details</h3>
+</div>
+
+<accordion close-others="oneAtATime">
+  <accordion-group ng-repeat="option in avaliableOptions" >
+    <accordion-heading>
+      {{option[0]}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+    </accordion-heading>
+    <ul class="list-group">
+      <li class="list-group-item dip-controlgraph-option" ng-repeat = "option2 in option[1]" ng-click = "applyChange(option[0], option2)" ng-class = "{active : decideWetherActive(option[0], option2)}">Range: +-{{option2}}</li>
+    </ul>
+  </accordion-group>
+
+
+</accordion>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="editDeafultGraphDone()">OK</button>
+  <button class="btn btn-warning" ng-click="cancelEditDeafultGraph()">Cancel</button>
+</div>

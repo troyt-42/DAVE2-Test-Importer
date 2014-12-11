@@ -118,3 +118,7 @@
   color:white;
   background-color:#2563AB;
 }
+
+.glyphicon.glyphicon-pencil:hover{
+  color:green;
+}

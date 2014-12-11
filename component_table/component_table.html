@@ -10,9 +10,10 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat = "row in rows track by $index" ng-click = "choseThisItem(row)">
-      <td ng-repeat = "value in row | sortObjectToArray:fieldsToShow.selection track by $index">{{value}}</td>
-    </tr>
+
+      <tr ng-repeat = "row in rows track by $index" ng-click = "choseThisItem(row)">
+        <td ng-repeat = "value in row | sortObjectToArray:fieldsToShow.selection track by $index">{{value}}</td>
+      </tr>
   </tbody>
 
 </table>

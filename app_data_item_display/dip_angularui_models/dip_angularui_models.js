@@ -131,7 +131,7 @@ function($scope,currentGraphConfig, $http,$modalInstance,$modal,$timeout){
     $modalInstance.dismiss('cancel');
   };
 
-  
+
 
 }]);
 
@@ -191,6 +191,86 @@ function($scope,fieldsInfo, $http,$modalInstance){
 
   $scope.cancelEditDefault = function(){
     $modalInstance.dismiss('cancel');
+  };
+
+}]);
+
+
+uiModels.controller("dipDefaultGraphMenuCtrl", ['$scope','currentRange','$http','$modalInstance', '$modal',
+function($scope,currentRange , $http,$modalInstance){
+
+  $scope.avaliableOptions = [['Color'],
+  ['Sub-Lines-1',[0, 5, 10, 15, 20, 25, 30, 35, 40]],
+  ['Sub-Lines-2',[0, 5, 10, 15, 20, 25, 30, 35, 40]],
+  ['Sub-Lines-3',[0, 5, 10, 15, 20, 25, 30, 35, 40]]];
+
+  $scope.decideWetherActive = function(category, option){
+    console.log(option);
+    if (category === 'Sub-Lines-1'){
+      console.log('rangeA');
+      if(option === currentRange.rangeA){
+        return true;
+      } else {
+        return false;
+      }
+    } else if (category === 'Sub-Lines-2'){
+
+      console.log('rangeB');
+      if(option === currentRange.rangeB){
+        return true;
+      } else {
+        return false;
+      }
+
+    } else if (category === 'Sub-Lines-3'){
+
+      console.log('rangeC');
+      if(option === currentRange.rangeC){
+        return true;
+      } else {
+        return false;
+      }
+
+    }
+
+  };
+
+  $scope.applyChange = function(category, option){
+    if (category === 'Sub-Lines-1'){
+
+      currentRange.rangeA = option;
+
+    } else if (category === 'Sub-Lines-2'){
+
+      currentRange.rangeB = option;
+    } else if (category === 'Sub-Lines-3'){
+
+      currentRange.rangeC = option;
+    }
+  };
+
+  $scope.editDeafultGraphDone = function(){
+    $modalInstance.close($scope.$emit('rangeChanged',currentRange));
+  };
+
+  $scope.cancelEditDeafultGraph = function(){
+    $modalInstance.dismiss("cancel");
+  };
+}]);
+
+uiModels.controller("dipValueCtrl", ['$scope','$http','valueToEdit','$modalInstance',
+function($scope, $http,valueToEdit, $modalInstance){
+  $scope.value = angular.copy(valueToEdit);
+  $scope.originalValue = valueToEdit;
+
+
+  $scope.editValueDone = function(){
+
+    $modalInstance.close($scope.$emit("tableValueChanged", {new : $scope.value, original : $scope.originalValue}));
+  };
+
+  $scope.cancelEditValue = function(){
+    $modalInstance.dismiss("cancel");
   };
 
 }]);
