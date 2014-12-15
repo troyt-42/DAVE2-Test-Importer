@@ -1,14 +1,7 @@
 
-var chatter = angular.module("chatApp", ['btford.socket-io']);
+var chatter = angular.module("chatApp", []);
 
-chatter.factory('chatSocket',function(socketFactory){
-	var socket = io.connect('http://10.3.86.65:3000');
-
-	return socketFactory({
-		ioSocket: socket
-	});
-});
-var chatController = chatter.controller('chatController',['$scope','chatSocket',function($scope,chatSocket){
+var chatController = chatter.controller('chatController',['$scope','daveSocket','$http', function($scope,daveSocket,$http){
 
 	$scope.nickname = window.prompt("What's your nickname?");
 
@@ -28,7 +21,7 @@ var chatController = chatter.controller('chatController',['$scope','chatSocket',
 			$scope.nickname = window.prompt("What's your nickname?");
 		}
 
-		chatSocket.emit("messages",$scope.nickname,message,$scope.color);
+		daveSocket.emit("messages",$scope.nickname,message,$scope.color);
 
 		var date = new Date().toString();
 		var newGuy = document.createElement("div");
@@ -45,7 +38,7 @@ var chatController = chatter.controller('chatController',['$scope','chatSocket',
 		elem.appendChild(newLine);
 	};
 
-	chatSocket.on("messages",function(nickname,message,color){
+	daveSocket.on("messages",function(nickname,message,color){
 		var newGuy = document.createElement("div");
 		var newLine = document.createElement("div");
 		var date = new Date().toString();
@@ -61,49 +54,75 @@ var chatController = chatter.controller('chatController',['$scope','chatSocket',
 		elem.appendChild(newLine);
 	});
 
+	$http.get("/getHistoryMessages")
+	.success(function(data){
+		if(data){
+			console.log(data);
+
+			for(var key in data){
+
+				var newGuy = document.createElement("div");
+				var newLine = document.createElement("div");
+				var date = new Date().toString();
+				var elem = document.getElementById("chatWindow");
+
+				newGuy.setAttribute("class","peopleName");
+				newGuy.innerHTML =  data[key].nickname + "@" + date + ":";
+				newLine.innerHTML = data[key].message;
+
+				newGuy.setAttribute("class","peopleName");
+				newGuy.style.color = data[key].color;
+
+				elem.appendChild(newGuy);
+				elem.appendChild(newLine);
+			}
+		}
+	});
+
+
 }]);
 
 /*
-	var server = io.connect('http://localhost:8080');
-	var nickname = prompt("What's your nickname?");
+var server = io.connect('http://localhost:8080');
+var nickname = prompt("What's your nickname?");
 
 
 
-	$scope.getRandomColor = function() {
-		var letters = '0123456789ABCDEF'.split('');
-		var color = '#';
-		for (var i = 0; i < 6; i++ ) {
-			color += letters[Math.floor(Math.random() * 16)];
-		}
-		return color;
-	}
+$scope.getRandomColor = function() {
+var letters = '0123456789ABCDEF'.split('');
+var color = '#';
+for (var i = 0; i < 6; i++ ) {
+color += letters[Math.floor(Math.random() * 16)];
+}
+return color;
+}
 
-	var ownColor = getRandomColor();
+var ownColor = getRandomColor();
 
-	$scope.sendMessage = function(){
-		var message = document.getElementById("chat").value;
-		server.emit('messages',message,nickname,ownColor);
+$scope.sendMessage = function(){
+var message = document.getElementById("chat").value;
+server.emit('messages',message,nickname,ownColor);
 
-	};
+};
 
-	server.emit("retrive");
+server.emit("retrive");
 
-	server.on("messages", function(data,name,color){
-		var date = new Date().toString();
-		var elem = document.getElementById("chatWindow");
-		console.log(data + ' ' + nickname);
+server.on("messages", function(data,name,color){
+var date = new Date().toString();
+var elem = document.getElementById("chatWindow");
+console.log(data + ' ' + nickname);
 
-		var newpeople =document.createElement("div");
-		var newline = document.createElement("div");
+var newpeople =document.createElement("div");
+var newline = document.createElement("div");
 
-		newpeople.setAttribute("class","peopleName");
-		newpeople.style.color = color;
-		newpeople.innerHTML =  name + "@" + date + ":";
-		newline.setAttribute("class","line");
-		newline.innerHTML = data;
+newpeople.setAttribute("class","peopleName");
+newpeople.style.color = color;
+newpeople.innerHTML =  name + "@" + date + ":";
+newline.setAttribute("class","line");
+newline.innerHTML = data;
 
-		elem.appendChild(newpeople);
-		elem.appendChild(newline);
-	});
+elem.appendChild(newpeople);
+elem.appendChild(newline);
+});
 
-	*/
+*/

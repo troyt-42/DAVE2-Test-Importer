@@ -16,7 +16,6 @@ kafkaTestApp.controller('kafkaTestCtrl', ['$http','$scope','kafkaSocket', functi
 
   $scope.messageToSend = '';
   $scope.messages = [];
-  $scope.topicsCreated = [];
 
 
   $scope.notempty = false;
@@ -30,9 +29,7 @@ kafkaTestApp.controller('kafkaTestCtrl', ['$http','$scope','kafkaSocket', functi
     $scope.topicName = topic;
   });
 
-  $scope.createNewTopic = function(){
-    kafkaSocket.emit('createTopic');
-  };
+
 
   $scope.sendMessageToTopic = function(){
     var message = [{

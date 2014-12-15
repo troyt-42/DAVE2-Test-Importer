@@ -3,7 +3,6 @@ var kafka = require('kafka-node');
 var bodyparser = require('body-parser');
 var io = require('socket.io');
 var http = require('http');
-var Q = require('q');
 
 
 var app = express();
@@ -17,71 +16,98 @@ console.log("Express Server Is Listenning at 3000");
 app.use(express.static(__dirname + '/kafka_testUI'));
 
 
+var kafkaClient = new kafka.Client('10.3.83.235:2181/');
+var producer = kafka.HighLevelProducer;
+var consumer = kafka.HighLevelConsumer;
+
+var sender = new producer(kafkaClient);
+var receiver = new consumer(kafkaClient, [{topic:'default'}], {});
+
+
+
 socket.on('connection', function(client){
-  var kafkaClient = new kafka.Client('10.3.83.235:2181/troy_kafka0.8');
-  var producer = kafka.HighLevelProducer;
-  var consumer = kafka.HighLevelConsumer;
 
-  var sender = new producer(kafkaClient);
 
-  var receiver = new consumer(kafkaClient, [{topic : 'default'}], {});
+  var created = false;
+  var isAdded = false;
+
 
   receiver.on('message', function(message){
     console.log('New Message Coming!');
-    client.emit('messageToAngular', message);
+    client.emit(uniqueEventName, message);
   });
-
-  receiver.on('err', function(err){
-    console.log('err: ' + err);
-  });
-
-  receiver.on('offsetOutOfRange', function(err){
-    console.log('offset out of range err: ' + err);
-  });
-
-
 
   console.log("Connected!" + client.handshake.address);
+  client.emit('created', client.id);
 
 
-  client.on('createTopic', function(){
-
+  if (!created){
     sender.createTopics([client.id], true, function (err, data) {
       console.log(data);
-    });
+      created = true;
+      var messageToSend = [{topic : client.id, messages : ['default']}];
+      console.log(messageToSend);
+      sender.send(messageToSend, function (err, data) {
+        console.log('callback data:' +　data);
 
-    Q.fcall(function(){
-      return sender.send([{topic: client.id, messages: 'test'}], function(err, data){
-        console.log(data);
-        console.log(err);
-      });
-    }).then(function(){
-      return receiver.addTopics([client.id], function(err, added){
-        if (added) {
-          console.log('add success result: '+ added);
-          client.emit('created', client.id);
-        } else {
-          console.log('add err result: ' + err );
+        var topicToAdd = [client.id];
+        console.log(topicToAdd);
+
+        if (!isAdded){
+          receiver.addTopics(topicToAdd, function(err, added){
+            console.log("add function called");
+            if (added) {
+              console.log('add success result: '+ added);
+              isAdded = true;
+            } else {
+              console.log('add err result: ' + err );
+            }
+          });
         }
+
       });
-    }).fail(function(err){
-      throw err;
     });
-
-
-
-
-  });
+  }
 
   client.on('sendMessageToTopic', function(message){
 
     console.log(message);
+
     sender.send(message, function (err, data) {
-      console.log(data);
+      console.log('callback data:' +　data);
+
+      var topicToAdd = [client.id];
+      console.log(topicToAdd);
+
+      if (!isAdded){
+        receiver.addTopics(topicToAdd, function(err, added){
+          console.log("add function called");
+          if (added) {
+            console.log('add success result: '+ added);
+            isAdded = true;
+          } else {
+            console.log('add err result: ' + err );
+          }
+        });
+      }
+
     });
+
+
+
+
+
   });
 
-
+  client.on('disconnect', function(){
+    receiver.removeTopics([client.id], function(err, removed){
+      if(removed){
+        console.log('removed: ' + removed);
+      }else {
+        console.log('err: ' + err);
+      }
+    });
+  });
 
   client.on('stopReceiveMessage', function(){
     receiver.removeTopics([client.id], function(err, removed){

@@ -15,11 +15,12 @@
     </div>
 
     <div class="panel-body">
-      <ul class = "list-group">
-        <li class = "list-group-item list-group-item-warning" ng-repeat = "field in d2Data" style ="display:table;width:100%">
-          <div class = "filename" style = "color:black">{{field}}</div>
+      <ul class = "list-group row" style = "margin:0">
+        <li class = "list-group-item list-group-item-warning col-md-12" ng-repeat = "field in d2Data" style ="display:table;width:100%;">
+          <div class = "filename col-md-5" style = "color:black">{{field}}</div>
 
-          <div class = "selectButton">
+          <div class = "selectButton col-md-7">
+            <div class="glyphicon glyphicon-ok readySign" style = "color:green;margin-right:10px" ng-hide = "unSelected[$index]"></div>
             <button class ="btn btn-info" ng-click = "unSelected[$index] = false; selectField(field)" ng-init = "unSelected[$index] = true">Select</button>
 
             <div class="btn-group" ng-repeat = "detail in fieldDetails" style ="padding : 3px;">
@@ -39,7 +40,7 @@
 
           </div>
 
-          <div class="glyphicon glyphicon-ok readySign" style = "color:green" ng-hide = "unSelected[$index]"></div>
+
         </li>
       </ul>
     </div>

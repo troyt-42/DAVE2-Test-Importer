@@ -1,6 +1,15 @@
-var dave2App = angular.module("dave2App", ["chatApp", "importer",'angularFileUpload', 'ngRoute','dataItemDisplay', 'PK.controllers','infinite-scroll','historyTracer','exportApp']);
+var dave2App = angular.module("dave2App", ["chatApp", "importer",'angularFileUpload', 'ngRoute','dataItemDisplay', 'PK.controllers','infinite-scroll','historyTracer','exportApp','kafkaMessager','btford.socket-io']);
 
-dave2App.factory('dataLib', ['$http', '$route','$routeParams',function($http, $route, $routeParams){
+dave2App.factory('daveSocket',function(socketFactory){
+  var socket = io.connect('http://10.3.86.65:3000');
+
+  return socketFactory({
+    ioSocket: socket
+  });
+});
+
+
+dave2App.factory('dataLib', ['$http', '$route','$routeParams','daveSocket',function($http, $route, $routeParams,daveSocket){
 
   var result =
   {
@@ -59,6 +68,9 @@ dave2App.config(["$routeProvider", function($routeProvider){
   }).when('/HistoryTracer', {
     templateUrl : 'app_history_tracer/app_history_tracer.html',
     controller: 'historyTracerCtrl'
+  }).when('/KafkaMessager', {
+    templateUrl : 'app_kafka_messager/app_kafka_messager.html',
+    controller : 'kafkaMessagerCtrl'
   }).when('/Three', {
     templateUrl : 'PK/two.htm',
     controller : 'twoCtrl'
@@ -84,7 +96,7 @@ dave2App.controller('dave2Ctrl', ['$scope','$location', function($scope, $locati
   };
 
   $scope.isHome = function(){
-    if ($location.path() === '/'){
+    if ($location.path() === ''){
       return true;
     } else {
       return false;

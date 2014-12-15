@@ -1,0 +1,26 @@
+
+  <div class = 'col-md-4'>
+    <h1>{{topicName}}</h1>
+    <br>
+
+    Send Message To Topic:
+    <input type= 'text' name='send' ng-model = 'messageToSend' placeholder = 'message to send'>
+    <div class = 'btn btn-info' ng-click = 'sendMessageToTopic()'>Send</div>
+    <br>
+
+    Stop Receive Message:
+    <div class = 'btn btn-warning' ng-click = 'unsubscribeTopic()'>Stop</div>
+    <br>
+
+
+  </div>
+
+  <div class = 'col-md-8'>
+
+    <div class="panel panel-default">
+      <div class="panel-body" ng-repeat = 'message in messages'>
+        <b>Topic:</b> {{message.topic}}
+        <b>Content:</b> {{message.value}}
+      </div>
+    </div>
+  </div>
