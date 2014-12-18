@@ -54,3 +54,9 @@ after start the server, user may need change the url used in the js files becaus
   - [q] (https://github.com/kriskowal/q)
   - [Socket.io] (http://socket.io/)
   - [node-zookeeper] (https://github.com/yfinkelstein/node-zookeeper)
+
+##To Do
+1. Accomplish test.js using mocha(for nodejs) or karma(for angularjs).
+2. Improve the kafka test app.
+3. Create a highcharts libirary (or find aother way to handle highcharts)
+4. ...
