@@ -12,7 +12,7 @@
   ```
   npm install bower -g
   ```
-  * Change current directory to Importer_Angular_Test folder in terminal
+  * Change current directory to Dave2_UI folder in terminal
   * Use bower to install dependencies for Angularjs:
   <br><br>
   ```
