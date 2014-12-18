@@ -1,6 +1,7 @@
 #Dave2 UI Prototype
   This project is designated to validate the technology stacks for DAVE2 front-side team at GFSA.
-## **Installation**
+## Installation
+
 * Requirement: 
   * Nodejs and npm installed
   * Have the Dave2_UI folder
@@ -33,5 +34,23 @@
 after start the server, user may need change the url used in the js files because of the change of machine's ip address (e.g. from `http://10.3.86.65:3000` to `http://10.3.83.237:3000`).
 
 ##Dependencies
-- Web:
+1. Web:
+  - [AngularJS](https://angularjs.org/) (with ngRoute and ngAnimate) 
+  - [jQuery] (http://jquery.com/)
+  - [Socket.io] (http://socket.io/)
+  - [Bootstrap 3] (http://getbootstrap.com/)
+  - [Highcharts] (http://www.highcharts.com/)
+  - [angular-file-upload] (https://github.com/nervgh/angular-file-upload)
+  - [angular-snap] (http://jtrussell.github.io/angular-snap.js/)
+  - [angular-ui-sortable] (https://github.com/angular-ui/ui-sortable)
+  - [angular-bootstrap] (https://github.com/angular-ui/bootstrap)
+  - [angular-dragdrop] (https://github.com/codef0rmer/angular-dragdrop)
 
+2. Server
+  - [body-parser] (https://github.com/expressjs/body-parser)
+  - [Express 4] (http://expressjs.com/)
+  - [kafka-node] (https://github.com/SOHU-Co/kafka-node)
+  - [multiparty] (https://github.com/andrewrk/node-multiparty)
+  - [q] (https://github.com/kriskowal/q)
+  - [Socket.io] (http://socket.io/)
+  - [node-zookeeper] (https://github.com/yfinkelstein/node-zookeeper)
