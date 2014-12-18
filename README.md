@@ -1,5 +1,5 @@
 #Dave2 UI Prototype
-  This project is designated to validate the technology stacks for DAVE2 front-side team at GFSA.
+  This project is designated to validate the technology stacks for DAVE2 front-end team at GFSA.
 ## Installation
 
 * Requirement: 
