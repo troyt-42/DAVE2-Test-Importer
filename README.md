@@ -32,6 +32,12 @@
   ```
 * Note: 
 after start the server, user may need change the url used in the js files because of the change of machine's ip address (e.g. from `http://10.3.86.65:3000` to `http://10.3.83.237:3000`).
+  - Places need change:
+    - **'/app.js'** at line **4** & **19**
+    - **'/app_data_item_display/app_data_item_display.js'** at line **261**
+    - **'/app_history_tracer/app_history_tracer.js'** at line **49** & **60**
+    - **'/app_importer/app_importer.js'** at line **19, 29, 37** & **962**
+  
 
 ##Dependencies
 1. Web:
