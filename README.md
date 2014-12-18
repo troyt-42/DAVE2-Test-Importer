@@ -31,7 +31,7 @@
   Express server is listenning at 3000
   ```
 * Note: 
-after start the server, user may need change the url used in the js files because of the change of machine's ip address (e.g. from `http://10.3.86.65:3000` to `http://10.3.83.237:3000`).
+after start the server, user may need change the url used in the js files because of the change of machine's IP address (e.g. from `http://10.3.86.65:3000` to `http://10.3.83.237:3000`).
   - Places need change:
     - **'/app.js'** at line **4** & **19**
     - **'/app_data_item_display/app_data_item_display.js'** at line **261**
